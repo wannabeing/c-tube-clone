@@ -1,0 +1,27 @@
+{
+  "name": "c-tube-clone",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wannabeing/c-tube-clone.git"
+  },
+  "scripts": {
+    "dev": "nodemon --exec babel-node src/server.js"
+  },
+  "author": "wannabeing",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wannabeing/c-tube-clone/issues"
+  },
+  "homepage": "https://github.com/wannabeing/c-tube-clone#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.0",
+    "@babel/node": "^7.17.10",
+    "@babel/preset-env": "^7.18.0",
+    "nodemon": "^2.0.16"
+  }
+}
