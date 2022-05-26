@@ -1,15 +1,27 @@
 import express from "express";
 import morgan from "morgan";
 
-const app = express(); // express application
-const logger = morgan("dev"); // Morgan 로그 미들웨어
+import homeRouter from "./routers/homeRouter";
+import userRouter from "./routers/userRouter";
+import videoRouter from "./routers/videoRouter";
 
-const finalWare = (req, res) => {
-  return res.send("끝!");
-};
+const app = express();
 
-app.use(logger); // 전역 미들웨어
-app.get("/", finalWare); // GET request
+// X-Powered-by Setting (Header)
+app.disable("x-powered-by");
+
+// Morgan log Middleware
+const logger = morgan("dev");
+app.use(logger);
+
+// Routers
+app.use("/", homeRouter);
+app.use("/videos", videoRouter);
+app.use("/users", userRouter);
+
+// Pug (Template Engine) View Engine Setting
+app.set("view engine", "pug");
+app.set("views", process.cwd() + "/src/views");
 
 app.listen(4000, () => {
   console.log(`✅ Server listening on port http://localhost:4000`);

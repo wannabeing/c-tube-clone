@@ -1,0 +1,11 @@
+extends ../base
+include ../mixins/video
+
+block body 
+    h2 Welcome To The C-Tube
+    
+    each item in fakeVideos
+        +video(item) 
+    else 
+        div  비디오를 찾지 못했습니다.
+    
