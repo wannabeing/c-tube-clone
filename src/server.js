@@ -1,8 +1,9 @@
 import express from "express";
 import morgan from "morgan";
 
-// Import MongoDB
+// Import MongoDB & DB Model
 import "./db";
+import "./models/Video";
 
 import homeRouter from "./routers/homeRouter";
 import userRouter from "./routers/userRouter";
