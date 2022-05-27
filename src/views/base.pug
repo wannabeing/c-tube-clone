@@ -9,16 +9,14 @@ html(lang="en")
         link(rel="stylesheet", href="https://unpkg.com/mvp.css")
     body 
         header
+            h1=pageTitle
             nav 
                 ul
                     li
                         a(href="/") Home
-                    li
-                        if fakeUser.isLogin
-                            a(href="/logout") Logout
-                        else
-                            a(href="/login") Login 
-            h1=pageTitle
+                    li 
+                        a(href="/videos/upload") Upload
+            
         main
             block body
     //- Included Footer

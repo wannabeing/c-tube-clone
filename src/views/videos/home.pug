@@ -1,11 +1,11 @@
 extends ../base
-include ../mixins/video
 
 block body 
-    h2 Welcome To The C-Tube
+    h2 아래 영상들을 확인해보세요.
     
     each item in fakeVideos
-        +video(item) 
+        h3
+            a(href=`/videos/${item.id}`)=item.title
     else 
         div  비디오를 찾지 못했습니다.
     

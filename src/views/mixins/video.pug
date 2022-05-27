@@ -1,8 +1,8 @@
 mixin video(item)
     div
-        h4=item.title
+        h3=item.title
         ul 
             li #{item.rating}/5
             li #{item.comments} comments
             li Posted #{item.createdAt}
-            li #{item.views} views
+            li #{item.views} #{video.views === 1 ? 'view':'views'}

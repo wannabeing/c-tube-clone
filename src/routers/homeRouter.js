@@ -1,6 +1,6 @@
 import express from "express";
 import { handleJoin, handleLogin } from "../controllers/userController";
-import { handleHome, handleSearch } from "../controllers/vidoeController";
+import { handleHome, handleSearch } from "../controllers/videoController";
 
 // Home Router
 const homeRouter = express.Router();
