@@ -1,6 +1,7 @@
 // Import MongoDB & DB Model
 import "./db";
 import "./models/Video";
+import "./models/User";
 
 // Import Express Server
 import app from "./server";

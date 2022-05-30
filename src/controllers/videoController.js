@@ -32,7 +32,7 @@ const handleWatch = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id);
   if (!video) {
-    return res.render("404", {
+    return res.status(404).render("404", {
       pageTitle: "Video not Found.",
     });
   }
@@ -45,7 +45,7 @@ const handleGetEdit = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id);
   if (!video) {
-    return res.render("404", {
+    return res.status(404).render("404", {
       pageTitle: "Video not Found.",
     });
   }
@@ -91,7 +91,7 @@ const handlePostUpload = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res.render("videos/upload", {
+    return res.status(400).render("videos/upload", {
       pageTitle: "Upload Video",
       errorMsg: true,
     });

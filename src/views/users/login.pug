@@ -1,0 +1,15 @@
+extends ../base
+
+block body  
+    if errorMsg
+        span(class="error_msg") #{errorMsg}  
+    form(action="", method="POST")
+        label(for="username") 아이디
+        input(name="username" type="text", required) 
+        label(for="password") 비밀번호
+        input(name="password" type="password", required) 
+        input(type="submit" value="Login")
+    div 
+        p 계정이 없으십니까?
+        p    
+            a(href="/join") Create Account &rarr;
