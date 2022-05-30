@@ -1,11 +1,11 @@
 extends ../base
+include ../mixins/video
 
-block body 
+block body
     h2 아래 영상들을 확인해보세요.
     
-    each item in fakeVideos
-        h3
-            a(href=`/videos/${item.id}`)=item.title
+    each item in videos
+        +video(item)
     else 
         div  비디오를 찾지 못했습니다.
     

@@ -1,62 +1,74 @@
-let fakeVideos = [
-  {
-    id: 1,
-    title: "first Video",
-    rating: 4,
-    comments: 2,
-    createdAt: "2 minutes ago",
-    views: 1,
-  },
-  {
-    id: 2,
-    title: "second Video",
-    rating: 4,
-    comments: 2,
-    createdAt: "2 minutes ago",
-    views: 59,
-  },
-  {
-    id: 3,
-    title: "third Video",
-    rating: 4,
-    comments: 2,
-    createdAt: "2 minutes ago",
-    views: 59,
-  },
-];
+import { redirect } from "express/lib/response";
+import Video from "../models/Video";
 
 // In Home Router
-const handleHome = (req, res) => {
+const handleHome = async (req, res) => {
+  const videos = await Video.find({}).sort({ createdAt: "desc" });
   return res.render("videos/home", {
-    pageTitle: "Home",
-    fakeVideos,
+    pageTitle: "C-Tube",
+    videos,
   });
 };
-const handleSearch = (req, res) => {
-  res.send("search");
+const handleSearch = async (req, res) => {
+  const { search } = req.query;
+  if (search) {
+    const videos = await Video.find({
+      $or: [
+        { title: { $regex: new RegExp(search, "i") } },
+        { description: { $regex: new RegExp(search, "i") } },
+      ],
+    });
+    return res.render("videos/search", {
+      pageTitle: "Search Video",
+      videos,
+      search,
+    });
+  }
+  return redirect("/");
 };
 
 // In Video Rotuer
-const handleWatch = (req, res) => {
-  const { id } = req.params; // const id = req.params.id와 같음
-  const video = fakeVideos[id - 1];
+const handleWatch = async (req, res) => {
+  const { id } = req.params;
+  const video = await Video.findById(id);
+  if (!video) {
+    return res.render("404", {
+      pageTitle: "Video not Found.",
+    });
+  }
   return res.render("videos/watch", {
-    pageTitle: `Watching: ${video.title}`,
+    pageTitle: video.title,
     video,
   });
 };
-const handleGetEdit = (req, res) => {
-  const { id } = req.params; // const id = req.params.id와 같음
-  const video = fakeVideos[id - 1];
+const handleGetEdit = async (req, res) => {
+  const { id } = req.params;
+  const video = await Video.findById(id);
+  if (!video) {
+    return res.render("404", {
+      pageTitle: "Video not Found.",
+    });
+  }
   return res.render("videos/edit", {
-    pageTitle: `Editing: ${video.title}`,
+    pageTitle: `Edit ${video.title}`,
     video,
   });
 };
-const handlePostEdit = (req, res) => {
-  const { id } = req.params; // const id = req.params.id와 같음
-  const { title } = req.body; // form으로부터 받아온 값
-  fakeVideos[id - 1].title = title;
+const handlePostEdit = async (req, res) => {
+  const { id } = req.params;
+  const { title, description, hashtags, category } = req.body; // form으로부터 받아온 값
+  const video = await Video.exists({ _id: id }); // exits()는 filter를 argument로 받음
+  if (!video) {
+    return res.render("404", {
+      pageTitle: "Video not Found.",
+    });
+  }
+  await Video.findByIdAndUpdate(id, {
+    title,
+    description,
+    category,
+    hashtags: Video.formatHashtags(hashtags),
+  });
   return res.redirect(`/videos/${id}`);
 };
 
@@ -65,20 +77,33 @@ const handleGetUpload = (req, res) => {
     pageTitle: "Upload Video",
   });
 };
-const handlePostUpload = (req, res) => {
-  const newVideo = {
-    id: 4,
-    title: req.body.title,
-    rating: 3,
-    comments: 1,
-    createdAt: "5 minutes ago",
-    views: 12,
-  };
-  fakeVideos.push(newVideo);
-  return res.redirect(`/videos/${newVideo.id}`);
+const handlePostUpload = async (req, res) => {
+  // POST Request Form Data
+  const { title, description, hashtags, category } = req.body;
+
+  // create Video
+  try {
+    await Video.create({
+      title,
+      description,
+      category,
+      hashtags: Video.formatHashtags(hashtags),
+    });
+  } catch (error) {
+    console.log(error);
+    return res.render("videos/upload", {
+      pageTitle: "Upload Video",
+      errorMsg: true,
+    });
+  }
+  return res.redirect("/");
 };
 
-const handleDel = (req, res) => res.send(`/videos/${req.params}/del!`);
+const handleDel = async (req, res) => {
+  const { id } = req.params;
+  await Video.findByIdAndDelete(id);
+  return res.redirect("/");
+};
 
 export {
   handleHome,

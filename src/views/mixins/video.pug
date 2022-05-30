@@ -1,8 +1,10 @@
 mixin video(item)
     div
-        h3=item.title
-        ul 
-            li #{item.rating}/5
-            li #{item.comments} comments
-            li Posted #{item.createdAt}
-            li #{item.views} #{video.views === 1 ? 'view':'views'}
+        h3
+            a(href=`/videos/${item.id}`)=item.title 
+        small=item.createdAt 
+        small=`Likes: ${item.meta.likes}, `
+        small=`Views: ${item.meta.views}, `
+        small=`Rating: ${item.meta.rating}`
+        hr 
+         

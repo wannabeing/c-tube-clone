@@ -1,8 +1,18 @@
 extends ../base
 
-block body
-    h3 영상 제목 수정하기
-    form(method="post" action="")
-        input(name="title" type="text" placeholder="New Title", value=video.title, required)
-        input(value="Save", type="submit")
-        
+block body 
+    form(id="upload", method="post") 
+        input(name="title" type="text", placeholder="비디오 제목", required, value=video.title)
+        select(name="category" id="category" class=video.category)
+            option(value="Sel1") Sel1 
+            option(value="Sel2") Sel2
+            option(value="Sel3") Sel3 
+            option(value="Sel4") Sel4
+        input(name="description" type="text", placeholder="비디오 설명", minLength=5, required, value=video.description)
+        input(name="hashtags" type="text", placeholder="해시태그", required, value=video.hashtags.join())
+        input(type="submit", value="Upload", required)   
+    if errorMsg
+        span(class="error_msg") 다시 입력해주세요.
+    
+    script
+        include ../scripts/videoEdit.js

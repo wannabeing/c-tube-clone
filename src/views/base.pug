@@ -5,19 +5,25 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title #{pageTitle} | C-Tube
+        
         //- Used CSS
         link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+
     body 
         header
             h1=pageTitle
-            nav 
+            nav(style="margin-bottom:0")
                 ul
                     li
                         a(href="/") Home
                     li 
                         a(href="/videos/upload") Upload
+            form(action="/search", method="GET")
+                input(name="search" type="text", placeholder="검색어를 입력하세요",required)
+                input(type="submit", value="Search")
             
         main
             block body
+            
     //- Included Footer
     include partials/footer  

@@ -1,10 +1,6 @@
 import express from "express";
 import morgan from "morgan";
 
-// Import MongoDB & DB Model
-import "./db";
-import "./models/Video";
-
 import homeRouter from "./routers/homeRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
@@ -30,6 +26,4 @@ app.use("/", homeRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
 
-app.listen(4000, () => {
-  console.log(`✅ Server listening on port http://localhost:4000`);
-});
+export default app;

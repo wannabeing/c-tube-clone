@@ -12,9 +12,11 @@ import {
 const videoRouter = express.Router();
 
 // Call Controllers
-videoRouter.get("/:id(\\d+)", handleWatch);
-videoRouter.get("/:id(\\d+)/del", handleDel);
+videoRouter.get("/:id([0-9a-f]{24})", handleWatch);
 videoRouter.route("/upload").get(handleGetUpload).post(handlePostUpload);
-videoRouter.route("/:id(\\d+)/edit").get(handleGetEdit).post(handlePostEdit);
-
+videoRouter
+  .route("/:id([0-9a-f]{24})/edit")
+  .get(handleGetEdit)
+  .post(handlePostEdit);
+videoRouter.get("/:id([0-9a-f]{24})/delete", handleDel);
 export default videoRouter;

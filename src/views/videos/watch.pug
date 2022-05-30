@@ -1,6 +1,14 @@
 extends ../base
 include ../mixins/video
 
-block body 
-    +video(video)    
-    a(href=`${video.id}/edit`) Edit Video &rarr;
+block body
+    hr
+    div
+        p=`설명: ${video.description}`
+        p= `category: ${video.category}`
+        each hashtag in video.hashtags 
+            span=hashtag
+        hr
+        a(href=`${video.id}/edit`) Edit &rarr;
+        br
+        a(href=`${video.id}/delete`) Delete &rarr;

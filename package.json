@@ -6,7 +6,7 @@
     "url": "git+https://github.com/wannabeing/c-tube-clone.git"
   },
   "scripts": {
-    "dev": "nodemon --exec babel-node src/server.js"
+    "dev": "nodemon --exec babel-node src/init.js"
   },
   "author": "wannabeing",
   "license": "MIT",
