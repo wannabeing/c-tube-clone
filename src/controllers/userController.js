@@ -60,16 +60,17 @@ const handlePostLogin = async (req, res) => {
   // POST form
   const { username, password } = req.body;
 
-  // check username
+  // Find User in DB
   const user = await User.findOne({ username });
+
+  // Check username
   if (!user) {
     return res.status(400).render("users/login", {
       pageTitle: "Login",
       errorMsg: "존재하지 않는 계정입니다.",
     });
   }
-
-  // check password
+  // Check password
   const pwCheck = await bcrypt.compare(password, user.password);
   if (!pwCheck) {
     return res.status(400).render("users/login", {
@@ -77,7 +78,10 @@ const handlePostLogin = async (req, res) => {
       errorMsg: "존재하지 않는 계정입니다.",
     });
   }
-  return res.end();
+  // Save Session INFO
+  req.session.loggedIn = true;
+  req.session.user = user;
+  return res.redirect("/");
 };
 
 // In User Routers

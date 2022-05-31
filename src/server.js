@@ -1,5 +1,7 @@
 import express from "express";
 import morgan from "morgan";
+import session from "express-session";
+import { localsMiddleware } from "./middlewares";
 
 import homeRouter from "./routers/homeRouter";
 import userRouter from "./routers/userRouter";
@@ -20,6 +22,18 @@ app.use(logger);
 
 // form Data 파싱 미들웨어
 app.use(express.urlencoded({ extended: true }));
+
+// Express-Session 미들웨어
+app.use(
+  session({
+    secret: "Hello",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+
+// Use Middlewares.js
+app.use(localsMiddleware);
 
 // Routers
 app.use("/", homeRouter);
