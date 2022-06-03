@@ -3,24 +3,32 @@ import {
   handleUserProfile,
   handleLogout,
   handleDel,
-  handleEdit,
+  handleGetEdit,
+  handlePostEdit,
   handleGithubLogin,
   handleGithubCallback,
   handleKakaoLogin,
   handleKakaoCallback,
+  handleChangePw,
 } from "../controllers/userController";
+import { redirectLogin, redirectHome } from "../middlewares";
 
 // User Router
 const userRouter = express.Router();
 
 // Call Controllers
-userRouter.get("/logout", handleLogout);
-userRouter.get("/edit", handleEdit);
+userRouter.get("/logout", redirectLogin, handleLogout);
+userRouter
+  .route("/edit")
+  .all(redirectLogin)
+  .get(handleGetEdit)
+  .post(handlePostEdit);
+userRouter.post("/change-pw", redirectLogin, handleChangePw);
 userRouter.get("/del", handleDel);
 userRouter.get("/:id", handleUserProfile);
-userRouter.get("/github/login", handleGithubLogin);
-userRouter.get("/github/callback", handleGithubCallback);
-userRouter.get("/kakao/login", handleKakaoLogin);
-userRouter.get("/kakao/callback", handleKakaoCallback);
+userRouter.get("/github/login", redirectHome, handleGithubLogin);
+userRouter.get("/github/callback", redirectHome, handleGithubCallback);
+userRouter.get("/kakao/login", redirectHome, handleKakaoLogin);
+userRouter.get("/kakao/callback", redirectHome, handleKakaoCallback);
 
 export default userRouter;

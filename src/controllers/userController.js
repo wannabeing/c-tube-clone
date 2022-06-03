@@ -1,4 +1,3 @@
-import { redirect, render } from "express/lib/response";
 import User from "../models/User";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
@@ -21,7 +20,6 @@ const handlePostJoin = async (req, res) => {
       errorMsg: "패스워드를 다시 입력해주세요.",
     });
   }
-
   // email check
   const exists = await User.exists({ email });
   if (exists) {
@@ -230,9 +228,68 @@ const handleLogout = (req, res) => {
   req.session.destroy();
   return res.redirect("/");
 };
+const handleGetEdit = (req, res) => {
+  res.render("users/edit", {
+    pageTitle: "Edit",
+  });
+};
+const handlePostEdit = async (req, res) => {
+  const {
+    session: {
+      user: { _id },
+    },
+    body: { name, gender, birth },
+  } = req;
+  const updateUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      name,
+      gender,
+      birth,
+    },
+    {
+      new: true,
+    }
+  );
+  req.session.user = updateUser;
+  return res.redirect("/users/edit");
+};
+const handleChangePw = async (req, res) => {
+  // POST data & Session INFO
+  const {
+    session: {
+      user: { password, _id },
+    },
+    body: { oldPw, newPw, newPw2 },
+  } = req;
+  // Check Password
+  const pwCheck = await bcrypt.compare(oldPw, password);
+  if (!pwCheck) {
+    return res.status(400).render("users/edit", {
+      errorMsg: "기존 비밀번호가 틀립니다.",
+    });
+  }
+  // Check New Password
+  if (newPw !== newPw2) {
+    return res.status(400).render("users/edit", {
+      errorMsg: "새로운 비밀번호가 일치하지 않습니다.",
+    });
+  }
+  // Check Same Password
+  if (oldPw === newPw) {
+    return res.status(400).render("users/edit", {
+      errorMsg: "비밀번호가 같습니다.",
+    });
+  }
+  // Change New Password
+  const user = await User.findById(_id);
+  await user.save();
+  // // Logout & RE Login
+  req.session.destroy();
+  return redirect("/login");
+};
 
 const handleUserProfile = (req, res) => res.send("/users/:id!");
-const handleEdit = (req, res) => res.send("/user/edit!");
 const handleDel = (req, res) => res.send("/user/del!");
 
 export {
@@ -242,8 +299,10 @@ export {
   handlePostJoin,
   handleUserProfile,
   handleLogout,
+  handleChangePw,
   handleDel,
-  handleEdit,
+  handleGetEdit,
+  handlePostEdit,
   handleGithubLogin,
   handleGithubCallback,
   handleKakaoLogin,

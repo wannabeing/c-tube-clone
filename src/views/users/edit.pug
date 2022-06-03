@@ -1,0 +1,34 @@
+extends ../base
+
+block body 
+    h3 개인정보 변경
+    form(action="", method="POST")
+        label(for="avatar") 프로필 이미지 
+        input(type="file" name="avatar", id=avatar, accept=".png .jpg .jpeg ")
+        label(for="email") 이메일 
+        input(name="email" type="email", disabled, value=user.email required)
+        label(for="name") 이름
+        input(name="name" type="text",value=user.name, minLength=2, maxLength=8, required) 
+        label(for="gender") 성별
+        select(id="gender" name="gender", required, class=user.gender)
+            option(value="male") 남자  
+            option(value="female") 여자
+        label(for="birth") 생년월일
+        input(name="birth" type="text", placeholder="ex) 0109",value=user.birth, minLength=4, maxLength=4, required)
+        input(type="submit" value="Save")
+    if !user.socialLogin
+        h3 비밀번호 변경
+        if errorMsg
+            span=errorMsg
+        form(action="change-pw", method="post")
+            label(for="oldPw") 현재 비밀번호
+            input(type="password", name="oldPw", id="oldPw")
+            label(for="newPW") 변경할 비밀번호
+            input(type="password", name="newPw", id="newPw")
+            label(for="newPw2") 변경할 비밀번호 확인
+            input(type="password", name="newPw2", id="newPw2")
+            input(type="submit" value="Save")
+
+
+    script
+        include ../scripts/userEdit.js

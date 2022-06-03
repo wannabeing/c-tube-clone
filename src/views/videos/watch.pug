@@ -9,6 +9,7 @@ block body
         each hashtag in video.hashtags 
             span=hashtag
         hr
-        a(href=`${video.id}/edit`) Edit &rarr;
-        br
-        a(href=`${video.id}/delete`) Delete &rarr;
+        if loggedIn
+            a(href=`${video.id}/edit`) Edit &rarr;
+            br
+            a(href=`${video.id}/delete`) Delete &rarr;

@@ -16,9 +16,11 @@ html(lang="en")
                 ul
                     li
                         a(href="/") Home
-                    li 
-                        a(href="/videos/upload") Upload
                     if loggedIn
+                        li 
+                            a(href="/videos/upload") Upload
+                        li 
+                            a(href="/users/edit") Edit Profile
                         li 
                             a(href=`/${user.name}`) #{user.name}
                         li
