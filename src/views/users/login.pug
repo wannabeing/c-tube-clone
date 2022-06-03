@@ -4,11 +4,15 @@ block body
     if errorMsg
         span(class="error_msg") #{errorMsg}  
     form(action="", method="POST")
-        label(for="username") 아이디
-        input(name="username" type="text", required) 
+        label(for="email") 이메일
+        input(name="email" type="text", required) 
         label(for="password") 비밀번호
         input(name="password" type="password", required) 
         input(type="submit" value="Login")
+        br
+        a(href="/users/github/login") Continue with Github &rarr;
+        br
+        a(href="/users/kakao/login") Continue with Kakao &rarr;
     div 
         p 계정이 없으십니까?
         p    

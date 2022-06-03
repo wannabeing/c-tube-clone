@@ -9,23 +9,19 @@ block body
     if errorMsg
         span(class="error_msg") #{errorMsg}  
     form(action="", method="POST")
-        label(for="username") 아이디
-        input(name="username" type="text", required) 
+        label(for="email") 이메일 
+        input(name="email" type="email", placeholder="xxxx@xxxx.xxx", required)
         label(for="password") 비밀번호
         input(name="password" type="password", required) 
         label(for="password2") 비밀번호 확인
         input(name="password2" type="password", required) 
         hr
-        label(for="email") 이메일 
-        input(name="email" type="email", placeholder="xxxx@xxxx.xxx", required)
         label(for="name") 이름
         input(name="name" type="text", required) 
         label(for="gender") 성별
         select(name="gender", required)
-            option(value="M") 남자  
-            option(value="F") 여자
+            option(value="male") 남자  
+            option(value="female") 여자
         label(for="birth") 생년월일
-        input(id="birth" name="birth" type="text", placeholder="ex) 980109", required)
-        label(for="hobby") 취미
-        input(name="hobby" type="text", required) 
+        input(id="birth" name="birth" type="text", placeholder="ex) 0109", required)
         input(type="submit" value="Join")

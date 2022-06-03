@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import session from "express-session";
 import { localsMiddleware } from "./middlewares";
+import MongoStore from "connect-mongo";
 
 import homeRouter from "./routers/homeRouter";
 import userRouter from "./routers/userRouter";
@@ -23,12 +24,13 @@ app.use(logger);
 // form Data 파싱 미들웨어
 app.use(express.urlencoded({ extended: true }));
 
-// Express-Session 미들웨어
+// Express-Session 미들웨어 (Connect Session & MongoDB)
 app.use(
   session({
-    secret: "Hello",
-    resave: true,
-    saveUninitialized: true,
+    secret: process.env.COOKIE_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
   })
 );
 

@@ -3,13 +3,13 @@ import bcrypt from "bcrypt";
 
 // Schema
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
   email: { type: String, required: true, unique: true },
+  password: { type: String },
+  avatarUrl: { type: String },
+  socialLogin: { type: Boolean, default: false },
   name: { type: String, required: true },
-  gender: { type: String, required: true },
-  birth: { type: String, require: true },
-  hobby: String,
+  gender: { type: String, default: null },
+  birth: { type: String, default: null },
 });
 
 // Schema Middleware
