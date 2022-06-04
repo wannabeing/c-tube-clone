@@ -3,11 +3,11 @@ import {
   handleWatch,
   handleGetEdit,
   handlePostEdit,
-  handleDel,
   handleGetUpload,
   handlePostUpload,
+  handleDelVideo,
 } from "../controllers/videoController";
-import { redirectLogin } from "../middlewares";
+import { redirectLogin, multerVideos } from "../middlewares";
 
 // Video Router
 const videoRouter = express.Router();
@@ -18,11 +18,11 @@ videoRouter
   .route("/upload")
   .all(redirectLogin)
   .get(handleGetUpload)
-  .post(handlePostUpload);
+  .post(multerVideos.single("video"), handlePostUpload);
 videoRouter
   .route("/:id([0-9a-f]{24})/edit")
   .all(redirectLogin)
   .get(handleGetEdit)
   .post(handlePostEdit);
-videoRouter.get("/:id([0-9a-f]{24})/delete", redirectLogin, handleDel);
+videoRouter.get("/:id([0-9a-f]{24})/delete", redirectLogin, handleDelVideo);
 export default videoRouter;

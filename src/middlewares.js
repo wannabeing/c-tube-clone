@@ -1,3 +1,5 @@
+import multer from "multer";
+
 const localsMiddleware = (req, res, next) => {
   // Session INFO -> locals INFO
   res.locals.loggedIn = Boolean(req.session.loggedIn);
@@ -22,5 +24,27 @@ const redirectHome = (req, res, next) => {
     return res.redirect("/");
   }
 };
+// User Avatar Image Multer Middleware
+const multerAvatars = multer({
+  dest: "uploads/avatars/",
+  limits: {
+    fileSize: 3000000,
+  },
+});
+// Video File Multer Middleware
+const multerVideos = multer({
+  dest: "uploads/videos/",
+  limits: {
+    fileSize: 10000000,
+  },
+});
+const multerImg = multer({ dest: "images/" });
 
-export { localsMiddleware, redirectLogin, redirectHome };
+export {
+  localsMiddleware,
+  redirectLogin,
+  redirectHome,
+  multerAvatars,
+  multerVideos,
+  multerImg,
+};

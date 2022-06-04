@@ -22,7 +22,7 @@ html(lang="en")
                         li 
                             a(href="/users/edit") Edit Profile
                         li 
-                            a(href=`/${user.name}`) #{user.name}
+                            a(href=`/users/${user._id}`) #{user.name}
                         li
                             a(href="/users/logout") Logout
                     else 

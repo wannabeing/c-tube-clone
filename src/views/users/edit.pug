@@ -2,9 +2,10 @@ extends ../base
 
 block body 
     h3 개인정보 변경
-    form(action="", method="POST")
+    form(action="", method="POST", enctype="multipart/form-data")
         label(for="avatar") 프로필 이미지 
-        input(type="file" name="avatar", id=avatar, accept=".png .jpg .jpeg ")
+        img(id="/"+user.avatarUrl, alt="avatar", width="100", height="100")
+        input(type="file" name="avatar", id=avatar, accept="image/*")
         label(for="email") 이메일 
         input(name="email" type="email", disabled, value=user.email required)
         label(for="name") 이름

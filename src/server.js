@@ -38,6 +38,8 @@ app.use(
 app.use(localsMiddleware);
 
 // Routers
+app.use("/uploads", express.static("uploads"));
+app.use("/images", express.static("images"));
 app.use("/", homeRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);

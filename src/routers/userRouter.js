@@ -11,7 +11,7 @@ import {
   handleKakaoCallback,
   handleChangePw,
 } from "../controllers/userController";
-import { redirectLogin, redirectHome } from "../middlewares";
+import { redirectLogin, redirectHome, multerAvatars } from "../middlewares";
 
 // User Router
 const userRouter = express.Router();
@@ -22,7 +22,7 @@ userRouter
   .route("/edit")
   .all(redirectLogin)
   .get(handleGetEdit)
-  .post(handlePostEdit);
+  .post(multerAvatars.single("avatar"), handlePostEdit);
 userRouter.post("/change-pw", redirectLogin, handleChangePw);
 userRouter.get("/del", handleDel);
 userRouter.get("/:id", handleUserProfile);

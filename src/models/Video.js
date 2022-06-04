@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 // Schema
 const videoSchema = new mongoose.Schema({
+  path: { type: String, required: true },
   title: { type: String, required: true, trim: true, maxlength: 50 },
   category: { type: String, required: true, trim: true },
   description: { type: String, required: true, maxlength: 200, minlength: 5 },
@@ -11,6 +12,11 @@ const videoSchema = new mongoose.Schema({
     likes: { type: Number, default: 0, required: true },
     views: { type: Number, default: 0, required: true },
     rating: { type: Number, default: 0, required: true },
+  },
+  publisher: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
 });
 

@@ -1,4 +1,5 @@
 import User from "../models/User";
+import Video from "../models/Video";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
 
@@ -236,13 +237,16 @@ const handleGetEdit = (req, res) => {
 const handlePostEdit = async (req, res) => {
   const {
     session: {
-      user: { _id },
+      user: { _id, avatarUrl },
     },
     body: { name, gender, birth },
+    file,
   } = req;
+
   const updateUser = await User.findByIdAndUpdate(
     _id,
     {
+      avatarUrl: file ? file.path : avatarUrl,
       name,
       gender,
       birth,
@@ -251,6 +255,11 @@ const handlePostEdit = async (req, res) => {
       new: true,
     }
   );
+  if (!updateUser) {
+    res.status(404).render("404", {
+      pageTitle: "updateUser is NULL",
+    });
+  }
   req.session.user = updateUser;
   return res.redirect("/users/edit");
 };
@@ -288,8 +297,24 @@ const handleChangePw = async (req, res) => {
   req.session.destroy();
   return redirect("/login");
 };
-
-const handleUserProfile = (req, res) => res.send("/users/:id!");
+const handleUserProfile = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id).populate("myVideos");
+  // NOT Found User
+  if (!user) {
+    return res.status(404).render("404", {
+      pageTitle: "User Not Found",
+    });
+  }
+  // Sort Videos
+  const myVideos = user.myVideos;
+  const descVideos = myVideos.sort((a, b) => b.createdAt - a.createdAt);
+  return res.render("users/profile", {
+    pageTitle: `${user.name}'s Profile`,
+    user,
+    descVideos,
+  });
+};
 const handleDel = (req, res) => res.send("/user/del!");
 
 export {
