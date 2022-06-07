@@ -8,6 +8,7 @@ html(lang="en")
         
         //- Used CSS
         link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+        link(rel="stylesheet", href="/static/css/styles.css")
 
     body 
         header
@@ -39,4 +40,6 @@ html(lang="en")
             block body
             
     //- Included Footer
-    include partials/footer  
+    include partials/footer
+    //- webpack JS Files
+    script(src="/static/js/main.js") 

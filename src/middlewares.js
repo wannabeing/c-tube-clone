@@ -38,7 +38,6 @@ const multerVideos = multer({
     fileSize: 10000000,
   },
 });
-const multerImg = multer({ dest: "images/" });
 
 export {
   localsMiddleware,
@@ -46,5 +45,4 @@ export {
   redirectHome,
   multerAvatars,
   multerVideos,
-  multerImg,
 };
