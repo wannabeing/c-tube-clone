@@ -1,0 +1,19 @@
+.edit__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 30px;
+  }
+  label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .edit__disabled {
+    color: rgba($color: #000000, $alpha: 0.3);
+  }
+}

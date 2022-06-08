@@ -2,6 +2,7 @@ import User from "../models/User";
 import Video from "../models/Video";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
+import { render } from "express/lib/response";
 
 // In Home Routers
 const handleGetJoin = (req, res) => {
@@ -212,7 +213,6 @@ const handleGithubCallback = async (req, res) => {
         name: userData.name ? userData.name : "Unknown",
         socialLogin: true,
       });
-      console.log(user);
     }
     req.session.loggedIn = true;
     req.session.user = user;
@@ -227,7 +227,7 @@ const handleGithubCallback = async (req, res) => {
 // In User Routers
 const handleLogout = (req, res) => {
   req.session.destroy();
-  return res.redirect("/");
+  return res.redirect("/login");
 };
 const handleGetEdit = (req, res) => {
   res.render("users/edit", {
@@ -263,7 +263,12 @@ const handlePostEdit = async (req, res) => {
   req.session.user = updateUser;
   return res.redirect("/users/edit");
 };
-const handleChangePw = async (req, res) => {
+const handleGetChangePw = (req, res) => {
+  return res.render("users/change-pw", {
+    pageTitle: "Change Password",
+  });
+};
+const handlePostChangePw = async (req, res) => {
   // POST data & Session INFO
   const {
     session: {
@@ -274,32 +279,39 @@ const handleChangePw = async (req, res) => {
   // Check Password
   const pwCheck = await bcrypt.compare(oldPw, password);
   if (!pwCheck) {
-    return res.status(400).render("users/edit", {
+    return res.status(400).render("users/change-pw", {
       errorMsg: "기존 비밀번호가 틀립니다.",
     });
   }
   // Check New Password
   if (newPw !== newPw2) {
-    return res.status(400).render("users/edit", {
+    return res.status(400).render("users/change-pw", {
       errorMsg: "새로운 비밀번호가 일치하지 않습니다.",
     });
   }
   // Check Same Password
   if (oldPw === newPw) {
-    return res.status(400).render("users/edit", {
+    return res.status(400).render("users/change-pw", {
       errorMsg: "비밀번호가 같습니다.",
     });
   }
   // Change New Password
   const user = await User.findById(_id);
+  user.password = newPw;
   await user.save();
   // // Logout & RE Login
   req.session.destroy();
-  return redirect("/login");
+  return res.redirect("/login");
 };
 const handleUserProfile = async (req, res) => {
   const { id } = req.params;
-  const user = await User.findById(id).populate("myVideos");
+  const user = await User.findById(id).populate({
+    path: "myVideos",
+    populate: {
+      path: "publisher",
+      model: "User",
+    },
+  });
   // NOT Found User
   if (!user) {
     return res.status(404).render("404", {
@@ -311,9 +323,30 @@ const handleUserProfile = async (req, res) => {
   const descVideos = myVideos.sort((a, b) => b.createdAt - a.createdAt);
   return res.render("users/profile", {
     pageTitle: `${user.name}'s Profile`,
-    user,
+    profileUser: user,
     descVideos,
   });
+};
+const handleResetAvatar = async (req, res) => {
+  const {
+    user: { _id },
+  } = req.session;
+  const user = await User.findById(_id);
+
+  // Reset AvatarUrl
+  if (user.avatarUrl) {
+    user.avatarUrl = null;
+  } else {
+    res.status(404).render("users/edit", {
+      pageTitle: "Edit",
+      errorMsg: "이미 기본 프로필입니다.",
+    });
+  }
+  // Save Avatar Url
+  await user.save();
+  req.session.user = user;
+  // Redirect Page
+  return res.redirect(`/users/${_id}`);
 };
 const handleDel = (req, res) => res.send("/user/del!");
 
@@ -324,7 +357,8 @@ export {
   handlePostJoin,
   handleUserProfile,
   handleLogout,
-  handleChangePw,
+  handleGetChangePw,
+  handlePostChangePw,
   handleDel,
   handleGetEdit,
   handlePostEdit,
@@ -332,4 +366,5 @@ export {
   handleGithubCallback,
   handleKakaoLogin,
   handleKakaoCallback,
+  handleResetAvatar,
 };

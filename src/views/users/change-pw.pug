@@ -1,0 +1,12 @@
+extends ../base
+
+block body 
+    if errorMsg
+        span=errorMsg
+    if user.socialLogin===false
+        form(action="", method="POST").edit__form
+            h3 비밀번호 변경
+            input(type="password", name="oldPw", placeholder="현재 비밀번호", id="oldPw", required)
+            input(type="password", name="newPw", placeholder="새로운 비밀번호", id="newPw", required)
+            input(type="password", name="newPw2", placeholder="새로운 비밀번호 확인", id="newPw2", required)
+            input(type="submit" value="비밀번호 변경하기")

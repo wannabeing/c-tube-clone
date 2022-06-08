@@ -1,8 +1,15 @@
 extends ../base
 include ../mixins/video
 
-block body 
-    h3=`${search}로 검색한 결과입니다.`
-    
+block body
+    div.search__msg
+        span.search__text #{search} 
+        span 으로 검색한 결과입니다.
     each item in videos
-        +video(item)    
+        div.home__grid         
+            +video(item)  
+    else 
+        div.empty_msg
+            span 검색한 비디오를 찾지 못했습니다 😭
+            a(href="/")
+                p 홈으로 이동하기 &rarr;

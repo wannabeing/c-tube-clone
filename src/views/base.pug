@@ -7,39 +7,18 @@ html(lang="en")
         title #{pageTitle} | #{siteName}
         
         //- Used CSS
-        link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+        //- link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+        link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
+        link(rel="stylesheet", href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css")
         link(rel="stylesheet", href="/static/css/styles.css")
 
     body 
-        header
-            h1=pageTitle
-            nav(style="margin-bottom:0")
-                ul
-                    li
-                        a(href="/") Home
-                    if loggedIn
-                        li 
-                            a(href="/videos/upload") Upload
-                        li 
-                            a(href="/users/edit") Edit Profile
-                        li 
-                            a(href=`/users/${user._id}`) #{user.name}
-                        li
-                            a(href="/users/logout") Logout
-                    else 
-                        li 
-                            a(href="/join") Join
-                        li 
-                            a(href="/login") Login
-                            
-            form(action="/search", method="GET")
-                input(name="search" type="text", placeholder="검색어를 입력하세요",required)
-                input(type="submit", value="Search")
-            
+        //- Include Header
+        include partials/header
+
         main
             block body
-            
-    //- Included Footer
-    include partials/footer
+        //- Include Footer
+        include partials/footer
     //- webpack JS Files
     script(src="/static/js/main.js") 

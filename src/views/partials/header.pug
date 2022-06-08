@@ -1,0 +1,27 @@
+header
+    a(href="/").header__logo
+        i.fab.fa-youtube
+        span C-Tube
+    div.header__search
+        form(id="form", action="/search", method="GET")
+            input(class="search_input", name="search" type="text", placeholder="검색", required)
+            button.search_submit
+    nav
+        ul
+            li
+                
+            if loggedIn
+                li 
+                    a(href="/videos/upload") 동영상 업로드
+                li 
+                    a(href=`/users/${user._id}`) 마이페이지
+                li
+                    a(href="/users/logout") 로그아웃
+            else 
+                li 
+                    a(href="/join") 회원가입
+                li 
+                    a(href="/login").header__login 로그인
+                            
+                
+                                

@@ -1,0 +1,59 @@
+.profile__div {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  .profile__info {
+    width: 30%;
+    margin: 20px;
+    padding: 30px;
+    background-color: rgba($color: white, $alpha: 1);
+    border-radius: 12px;
+    box-shadow: 0 0 16px #00000014;
+    .profile__info__details {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .info__img {
+        border-radius: 50px;
+        margin-bottom: 10px;
+      }
+      .info__name {
+        display: flex;
+        align-items: center;
+        color: black;
+        font-size: 18px;
+        font-weight: 600;
+        &:hover {
+          color: $wisely;
+          font-weight: 800;
+          opacity: 0.8;
+        }
+      }
+      .info__email {
+        opacity: 0.6;
+        margin-bottom: 10px;
+      }
+      .info__edit {
+        font-size: 15px;
+        font-weight: 600;
+        background-color: black;
+        border-radius: 12px;
+        color: $bg;
+        padding: 10px;
+
+        &:hover {
+          font-weight: 800;
+        }
+      }
+    }
+  }
+  .profile__videos {
+    width: auto;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: rgba($color: white, $alpha: 1);
+    border-radius: 12px;
+    box-shadow: 0 0 16px #00000014;
+  }
+}

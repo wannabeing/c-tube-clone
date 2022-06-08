@@ -1,0 +1,37 @@
+.empty_msg {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 70px;
+  span {
+    margin-bottom: 15px;
+  }
+  p {
+    color: $wisely;
+    font-weight: 600;
+    &:hover {
+      color: red;
+      font-weight: 800;
+    }
+  }
+}
+.account__div {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-weight: 600;
+  opacity: 0.6;
+  margin-bottom: 20px;
+  .account__text {
+    text-decoration: underline;
+    &:hover {
+      color: $wisely;
+      font-weight: 800;
+    }
+  }
+}
+.img__avatar {
+  border-radius: 50px;
+  margin-bottom: 10px;
+}

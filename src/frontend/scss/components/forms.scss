@@ -1,0 +1,77 @@
+form {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: rgba($color: white, $alpha: 1);
+  border-radius: 12px;
+  box-shadow: 0 0 16px #00000014;
+  hr {
+    width: 100%;
+    margin: 25px 0px;
+    border: 0.5px solid rgba($color: $wisely, $alpha: 0.1);
+  }
+}
+input,
+select,
+.social__btn {
+  all: unset;
+  padding: 15px 20px;
+  border-radius: 5px;
+  border: 1px solid rgba($color: $wisely, $alpha: 0.3);
+  background-color: white;
+  margin-bottom: 5px;
+  font-size: 16px;
+  width: 90%;
+  &::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+  }
+}
+input[type="submit"],
+.social__btn {
+  display: block;
+  text-align: center;
+  font-weight: 600;
+  background-color: $wisely;
+  border-radius: 12px;
+  margin-top: 10px;
+  color: $bg;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.9;
+    font-weight: 800;
+  }
+}
+.a__btn {
+  all: unset;
+  text-align: center;
+  cursor: pointer;
+  padding: 15px 20px;
+  border-radius: 12px;
+  background-color: black;
+  color: $bg;
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  width: 90%;
+  &:hover {
+    opacity: 0.8;
+    font-weight: 800;
+  }
+}
+.reset_form {
+  display: none;
+}
+.reset_btn {
+  border: none;
+  background-color: $wisely;
+  border-radius: 12px;
+  color: $bg;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  &:hover {
+    font-weight: 800;
+  }
+}

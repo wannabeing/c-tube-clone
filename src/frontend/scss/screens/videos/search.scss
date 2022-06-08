@@ -1,0 +1,12 @@
+.search__msg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px;
+  font-size: 18px;
+  .search__text {
+    font-weight: 600;
+    font-size: 20px;
+    color: $wisely;
+  }
+}

@@ -9,7 +9,9 @@ import {
   handleGithubCallback,
   handleKakaoLogin,
   handleKakaoCallback,
-  handleChangePw,
+  handleGetChangePw,
+  handlePostChangePw,
+  handleResetAvatar,
 } from "../controllers/userController";
 import { redirectLogin, redirectHome, multerAvatars } from "../middlewares";
 
@@ -23,12 +25,17 @@ userRouter
   .all(redirectLogin)
   .get(handleGetEdit)
   .post(multerAvatars.single("avatar"), handlePostEdit);
-userRouter.post("/change-pw", redirectLogin, handleChangePw);
+userRouter
+  .route("/change-pw")
+  .all(redirectLogin)
+  .get(handleGetChangePw)
+  .post(handlePostChangePw);
 userRouter.get("/del", handleDel);
 userRouter.get("/:id", handleUserProfile);
 userRouter.get("/github/login", redirectHome, handleGithubLogin);
 userRouter.get("/github/callback", redirectHome, handleGithubCallback);
 userRouter.get("/kakao/login", redirectHome, handleKakaoLogin);
 userRouter.get("/kakao/callback", redirectHome, handleKakaoCallback);
+userRouter.post("/avatar_reset", redirectLogin, handleResetAvatar);
 
 export default userRouter;

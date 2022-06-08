@@ -1,10 +1,9 @@
 mixin video(item)
-    div
-        h3
-            a(href=`/videos/${item.id}`)=item.title 
-        small=item.createdAt 
-        small=`Likes: ${item.meta.likes}, `
-        small=`Views: ${item.meta.views}, `
-        small=`Rating: ${item.meta.rating}`
-        hr 
-         
+    a(href=`/videos/${item.id}`).mixins-video
+        div.mixins-video__thumb
+        div.mixins-video__data
+            span.mixins-video__title=item.title
+            div.mixins-video__meta
+                p #{item.publisher.name}
+                span 조회수 #{item.meta.views}회 • 
+                span #{item.createdAt}

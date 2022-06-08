@@ -1,8 +1,8 @@
 extends ../base
 
 block body 
-    form(id="upload" action="", method="post", enctype="multipart/form-data")
-        label(for="video") 비디오 파일
+    form(id="upload" action="", method="post", enctype="multipart/form-data").edit__form
+        h3 동영상 업로드
         input(type="file", accept="video/*", id="video", name="video", required) 
         input(name="title" type="text", placeholder="비디오 제목", required)
         input(name="description" type="text", placeholder="비디오 설명", minLength=5, required)
@@ -12,7 +12,7 @@ block body
             option(value="Sel2") Sel2
             option(value="Sel3") Sel3 
             option(value="Sel4") Sel4
-        input(type="submit", value="Upload", required)   
+        input(type="submit", value="업로드하기", required)   
     if errorMsg
         span(class="error_msg") 다시 입력해주세요.
     

@@ -3,8 +3,9 @@ import User from "../models/User";
 
 // In Home Router
 const handleHome = async (req, res) => {
-  const videos = await Video.find({}).sort({ createdAt: "desc" });
-  console.log(videos);
+  const videos = await Video.find({})
+    .sort({ createdAt: "desc" })
+    .populate("publisher");
   return res.render("videos/home", {
     pageTitle: "C-Tube",
     videos,
@@ -18,7 +19,7 @@ const handleSearch = async (req, res) => {
         { title: { $regex: new RegExp(search, "i") } },
         { description: { $regex: new RegExp(search, "i") } },
       ],
-    });
+    }).populate("publisher");
     return res.render("videos/search", {
       pageTitle: "Search Video",
       videos,

@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   avatarUrl: { type: String },
   socialLogin: { type: Boolean, default: false },
   name: { type: String, required: true, maxlength: 8 },
-  gender: { type: String, default: null },
+  gender: { type: String, default: null, required: true },
   birth: { type: String, default: null, maxlength: 4, minlength: 4 },
   myVideos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
 });
