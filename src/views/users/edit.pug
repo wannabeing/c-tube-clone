@@ -11,10 +11,9 @@ block body
         else 
             i.xi-5x.xi-profile
         button(form="avatar_reset_form").reset_btn 기본 프로필로 변경
-        hr
         label(for="avatar") 프로필 변경 
         input(id="avatar", type="file" name="avatar", accept="image/*")
-        
+        hr
         input(name="email" type="email", disabled, value=user.email, required).edit__disabled
         input(name="name" type="text",value=user.name, minLength=2, maxLength=8, required) 
         select(id=user.gender, name="gender", required)

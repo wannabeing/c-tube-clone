@@ -2,19 +2,40 @@ extends ../base
 include ../mixins/video
 
 block body
-    video(src="/"+video.path, controls) 
-    div
-        p=`설명: ${video.description}`
-        p= `category: ${video.category}`
-        each hashtag in video.hashtags 
-            span=hashtag
-    if String(user._id) === String(video.publisher._id)
-        a(href=`${video.id}/edit`) Edit &rarr;
-        br
-        a(href=`${video.id}/delete`) Delete &rarr;
-        hr
-    div 
-        small="Created by "
-            a(href=`/users/${video.publisher._id}`)=video.publisher.name
-        hr
+    div#videoContainer
+        video(src="/"+video.path) 
+        div#videoControllers.videoControllers
+            div.videoControllers__play
+                span#play.videoControllers__playBtn
+                    i.fas.fa-play
+                div.videoControllers__time
+                    span#current 00:00
+                    span.timeBlank / 
+                    span#total
+            input(type="range", value="0", min="0", step="0.1")#timeline.videoControllers__timeline
+            div.videoControllers__vol
+                input(type="range", value="1", min="0", max="1", step="0.1")#vol
+                span#mute
+                    i.fas.fa-volume-up
+            div 
+                span#fullscreen
+                    i.fas.fa-expand
+
+        
+    //- div
+    //-     p=`설명: ${video.description}`
+    //-     p= `category: ${video.category}`
+    //-     each hashtag in video.hashtags 
+    //-         span=hashtag
+    //- if String(user._id) === String(video.publisher._id)
+    //-     a(href=`${video.id}/edit`) Edit &rarr;
+    //-     br
+    //-     a(href=`${video.id}/delete`) Delete &rarr;
+    //-     hr
+    //- div 
+    //-     small="Created by "
+    //-         a(href=`/users/${video.publisher._id}`)=video.publisher.name
+    //-     hr
+block scripts 
+    script(src="/static/js/videoPlayer.js")
     

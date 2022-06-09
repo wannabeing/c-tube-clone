@@ -11,7 +11,7 @@ form {
     border: 0.5px solid rgba($color: $wisely, $alpha: 0.1);
   }
 }
-input,
+input:not([type="range"]),
 select,
 .social__btn {
   all: unset;
