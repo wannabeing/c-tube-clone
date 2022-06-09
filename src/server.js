@@ -7,6 +7,7 @@ import MongoStore from "connect-mongo";
 import homeRouter from "./routers/homeRouter";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
+import apiRouter from "./routers/apiRouter";
 
 const app = express();
 
@@ -44,5 +45,6 @@ app.use("/images", express.static("images"));
 app.use("/", homeRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
+app.use("/api", apiRouter);
 
 export default app;

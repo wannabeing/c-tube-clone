@@ -66,9 +66,6 @@ const handleInputVol = (event) => {
   defaultVol = value;
   video.volume = value;
 };
-const handleVideoPause = () => {};
-const handleVideoPlay = () => {};
-
 // Video's Time Data Settings 1
 const handleVideoMetaData = () => {
   totalTime.innerText = formatPlayTime(Math.floor(video.duration));
@@ -79,17 +76,14 @@ const handleTimeUpdate = () => {
   currentTime.innerText = formatPlayTime(Math.floor(video.currentTime));
   timeLine.value = Math.floor(video.currentTime);
 };
-
 const handleTimeLine = (event) => {
   const { value } = event.target;
   video.currentTime = value;
 };
-
 const handleTimeLineMouseDown = () => {
   videoStatus = video.paused ? false : true;
   video.pause();
 };
-
 const handleTimeLineMouseUp = () => {
   if (videoStatus) {
     video.play();
@@ -138,14 +132,8 @@ const handleFullScreen = () => {
     fullScreenBtnIcon.classList = "fas fa-expand";
   }
 };
-const hideControllers = () => {
-  videoControllers.classList.remove("showing");
-  console.log("removing");
-};
-const showControllers = () => {
-  videoControllers.classList.add("showing");
-  console.log("showing");
-};
+const hideControllers = () => videoControllers.classList.remove("showing");
+const showControllers = () => videoControllers.classList.add("showing");
 const handleVideoMouseMove = () => {
   if (timeoutID) {
     clearTimeout(timeoutID);
@@ -167,20 +155,28 @@ const handleVidoeEnded = () => {
   video.load();
   playBtnIcon.classList = video.paused ? "fas fa-play" : "fas fa-pause";
 };
+const handleVideoPlay = () => {
+  // 3초 이상 동영상을 보면 조회수 1 증가
+  setTimeout(() => {
+    const id = videoContainer.dataset.video_id;
+    fetch(`/api/videos/${id}/views`, {
+      method: "POST",
+    });
+  }, 3000);
+};
+document.addEventListener("keydown", handleKeyDownEvent);
 playBtn.addEventListener("click", handlePlayBtn);
 muteBtn.addEventListener("click", handleMuteBtn);
+fullScreenBtn.addEventListener("click", handleFullScreenBtn);
 volInput.addEventListener("input", handleInputVol);
 video.addEventListener("play", handleVideoPlay);
-video.addEventListener("pause", handleVideoPause);
 video.addEventListener("loadedmetadata", handleVideoMetaData);
 video.addEventListener("timeupdate", handleTimeUpdate);
 video.addEventListener("click", handleVideoClick);
 video.addEventListener("ended", handleVidoeEnded);
 videoContainer.addEventListener("mousemove", handleVideoMouseMove);
 videoContainer.addEventListener("mouseleave", handleVideoMouseLeave);
+videoContainer.addEventListener("fullscreenchange", handleFullScreen);
 timeLine.addEventListener("input", handleTimeLine);
 timeLine.addEventListener("mousedown", handleTimeLineMouseDown);
 timeLine.addEventListener("mouseup", handleTimeLineMouseUp);
-document.addEventListener("keydown", handleKeyDownEvent);
-fullScreenBtn.addEventListener("click", handleFullScreenBtn);
-videoContainer.addEventListener("fullscreenchange", handleFullScreen);

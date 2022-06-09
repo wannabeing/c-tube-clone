@@ -11,7 +11,6 @@ const videoSchema = new mongoose.Schema({
   meta: {
     likes: { type: Number, default: 0, required: true },
     views: { type: Number, default: 0, required: true },
-    rating: { type: Number, default: 0, required: true },
   },
   publisher: {
     type: mongoose.Schema.Types.ObjectId,

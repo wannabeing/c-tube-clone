@@ -31,7 +31,7 @@ userRouter
   .get(handleGetChangePw)
   .post(handlePostChangePw);
 userRouter.get("/del", handleDel);
-userRouter.get("/:id", handleUserProfile);
+userRouter.get("/:id([0-9a-f]{24})", handleUserProfile);
 userRouter.get("/github/login", redirectHome, handleGithubLogin);
 userRouter.get("/github/callback", redirectHome, handleGithubCallback);
 userRouter.get("/kakao/login", redirectHome, handleKakaoLogin);
