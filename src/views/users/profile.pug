@@ -1,6 +1,11 @@
 extends ../base
 include ../mixins/video
-
+block styles 
+    style(type="text/css").
+        .header__mypage  {
+            color: #0056b8;
+            font-weight: 800;
+        }
 block body 
     div.profile__div
         div.profile__info
@@ -23,6 +28,5 @@ block body
                 else
                     div.empty_msg
                         span 비디오가 존재하지 않습니다 😭
-    script 
-        //- include ../scripts/users/avatarSrcSetting.js
+block scripts 
     

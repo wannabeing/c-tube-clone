@@ -12,14 +12,16 @@ header
                 
             if loggedIn
                 li 
-                    a(href="/videos/upload") 동영상 업로드
+                    a(href="/videos/create").header__create 영상 만들기
                 li 
-                    a(href=`/users/${user._id}`) 마이페이지
+                    a(href="/videos/upload").header__upload 동영상 업로드
+                li 
+                    a(href=`/users/${user._id}`).header__mypage 마이페이지
                 li
                     a(href="/users/logout") 로그아웃
             else 
                 li 
-                    a(href="/join") 회원가입
+                    a(href="/join").header__join 회원가입
                 li 
                     a(href="/login").header__login 로그인
                             

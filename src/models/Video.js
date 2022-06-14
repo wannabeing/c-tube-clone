@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 // Schema
 const videoSchema = new mongoose.Schema({
   path: { type: String, required: true },
+  thumbPath: { type: String, required: true },
   title: { type: String, required: true, trim: true, maxlength: 50 },
   category: { type: String, required: true, trim: true },
   description: { type: String, required: true, maxlength: 200, minlength: 5 },

@@ -5,6 +5,8 @@ module.exports = {
   entry: {
     main: "./src/frontend/js/main.js",
     videoPlayer: "./src/frontend/js/videoPlayer.js",
+    selectEdit: "./src/frontend/js/selectEdit.js",
+    videoRecorder: "./src/frontend/js/videoRecorder.js",
   },
   plugins: [
     new MiniCssExtractPlugin({

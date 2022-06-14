@@ -1,8 +1,6 @@
 import User from "../models/User";
-import Video from "../models/Video";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
-import { render } from "express/lib/response";
 
 // In Home Routers
 const handleGetJoin = (req, res) => {
@@ -17,17 +15,17 @@ const handlePostJoin = async (req, res) => {
 
   // password check
   if (password !== password2) {
+    req.flash("error", "패스워드를 다시 입력해주세요. 🫢");
     return res.status(400).render("users/join", {
       pageTitle,
-      errorMsg: "패스워드를 다시 입력해주세요.",
     });
   }
   // email check
   const exists = await User.exists({ email });
   if (exists) {
+    req.flash("error", "이메일이 이미 존재합니다. 😳");
     return res.status(400).render("users/join", {
       pageTitle,
-      errorMsg: "이메일이 이미 존재합니다.",
     });
   }
   // create User
@@ -42,11 +40,13 @@ const handlePostJoin = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    req.flash("error", "다시 입력헤주세요. 😅");
     return res.status(400).render("users/join", {
-      pageTitle: "Join",
-      errorMsg: "다시 입력헤주세요.",
+      pageTitle,
     });
   }
+
+  req.flash("info", `${name}님 가입을 환영합니다! 🤩`);
   return res.redirect("/login");
 };
 const handleGetLogin = (req, res) => {
@@ -63,22 +63,23 @@ const handlePostLogin = async (req, res) => {
 
   // Check email
   if (!user) {
+    req.flash("error", "이메일을 다시 입력해주세요!");
     return res.status(400).render("users/login", {
       pageTitle: "Login",
-      errorMsg: "존재하지 않는 계정입니다.",
     });
   }
   // Check password
   const pwCheck = await bcrypt.compare(password, user.password);
   if (!pwCheck) {
+    req.flash("error", "비밀번호를 다시 입력해주세요!");
     return res.status(400).render("users/login", {
       pageTitle: "Login",
-      errorMsg: "존재하지 않는 계정입니다.",
     });
   }
   // Save Session INFO
   req.session.loggedIn = true;
   req.session.user = user;
+  req.flash("info", `환영합니다! ${user.name}님! 🤩`);
   return res.redirect("/");
 };
 
@@ -256,12 +257,13 @@ const handlePostEdit = async (req, res) => {
     }
   );
   if (!updateUser) {
+    req.flash("error", "존재하지 않는 유저입니다! 😳");
     res.status(404).render("404", {
       pageTitle: "updateUser is NULL",
     });
   }
   req.session.user = updateUser;
-  return res.redirect("/users/edit");
+  return res.redirect(`/users/${updateUser._id}`);
 };
 const handleGetChangePw = (req, res) => {
   return res.render("users/change-pw", {
@@ -279,20 +281,23 @@ const handlePostChangePw = async (req, res) => {
   // Check Password
   const pwCheck = await bcrypt.compare(oldPw, password);
   if (!pwCheck) {
+    req.flash("error", "기존 비밀번호가 맞지 않아요.. 😳");
     return res.status(400).render("users/change-pw", {
-      errorMsg: "기존 비밀번호가 틀립니다.",
+      pageTitle: "Change Password",
     });
   }
   // Check New Password
   if (newPw !== newPw2) {
+    req.flash("error", "새로운 비밀번호가 일치하지 않아요.. 😳");
     return res.status(400).render("users/change-pw", {
-      errorMsg: "새로운 비밀번호가 일치하지 않습니다.",
+      pageTitle: "Change Password",
     });
   }
   // Check Same Password
   if (oldPw === newPw) {
+    req.flash("error", "새로운 비밀번호와 기존 비밀번호가 같아요.. 😳");
     return res.status(400).render("users/change-pw", {
-      errorMsg: "비밀번호가 같습니다.",
+      pageTitle: "Change Password",
     });
   }
   // Change New Password
@@ -300,9 +305,11 @@ const handlePostChangePw = async (req, res) => {
   user.password = newPw;
   await user.save();
   // // Logout & RE Login
+  req.flash("info", "새로운 비밀번호로 로그인해주세요 😎");
   req.session.destroy();
   return res.redirect("/login");
 };
+
 const handleUserProfile = async (req, res) => {
   const { id } = req.params;
   const user = await User.findById(id).populate({
@@ -314,6 +321,7 @@ const handleUserProfile = async (req, res) => {
   });
   // NOT Found User
   if (!user) {
+    console.log("여기");
     return res.status(404).render("404", {
       pageTitle: "User Not Found",
     });
@@ -337,10 +345,8 @@ const handleResetAvatar = async (req, res) => {
   if (user.avatarUrl) {
     user.avatarUrl = null;
   } else {
-    res.status(404).render("users/edit", {
-      pageTitle: "Edit",
-      errorMsg: "이미 기본 프로필입니다.",
-    });
+    req.flash("error", "이미 기본 프로필입니다. 😳");
+    return res.status(404).redirect("edit");
   }
   // Save Avatar Url
   await user.save();
@@ -348,7 +354,6 @@ const handleResetAvatar = async (req, res) => {
   // Redirect Page
   return res.redirect(`/users/${_id}`);
 };
-const handleDel = (req, res) => res.send("/user/del!");
 
 export {
   handleGetLogin,
@@ -359,7 +364,6 @@ export {
   handleLogout,
   handleGetChangePw,
   handlePostChangePw,
-  handleDel,
   handleGetEdit,
   handlePostEdit,
   handleGithubLogin,

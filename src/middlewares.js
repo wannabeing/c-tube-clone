@@ -13,6 +13,7 @@ const redirectLogin = (req, res, next) => {
   if (req.session.user) {
     return next();
   } else {
+    req.flash("error", "로그인을 해주세요 🥲");
     return res.redirect("/login");
   }
 };
@@ -21,6 +22,7 @@ const redirectHome = (req, res, next) => {
   if (!req.session.user) {
     return next();
   } else {
+    req.flash("error", "접근할 수 없습니다 🥲");
     return res.redirect("/");
   }
 };

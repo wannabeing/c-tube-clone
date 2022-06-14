@@ -6,6 +6,7 @@ import {
   handleGetUpload,
   handlePostUpload,
   handleDelVideo,
+  handleCreate,
 } from "../controllers/videoController";
 import { redirectLogin, multerVideos } from "../middlewares";
 
@@ -18,11 +19,24 @@ videoRouter
   .route("/upload")
   .all(redirectLogin)
   .get(handleGetUpload)
-  .post(multerVideos.single("video"), handlePostUpload);
+  .post(
+    multerVideos.fields([
+      {
+        name: "video",
+        maxCount: 1,
+      },
+      {
+        name: "thumb",
+        maxCount: 1,
+      },
+    ]),
+    handlePostUpload
+  );
 videoRouter
   .route("/:id([0-9a-f]{24})/edit")
   .all(redirectLogin)
   .get(handleGetEdit)
   .post(handlePostEdit);
+videoRouter.route("/create").all(redirectLogin).get(handleCreate);
 videoRouter.get("/:id([0-9a-f]{24})/delete", redirectLogin, handleDelVideo);
 export default videoRouter;

@@ -67,7 +67,7 @@ const handlePostEdit = async (req, res) => {
   const { id } = req.params;
   const { _id } = req.session.user;
   const { title, description, hashtags, category } = req.body; // form으로부터 받아온 값
-  // const video = await Video.exists({ _id: id }); // exits()는 filter를 argument로 받음
+  // const video = await Video.exists({ _id: id });
   const video = await Video.findById(id);
   // NOT Found Edit Video
   if (!video) {
@@ -86,6 +86,7 @@ const handlePostEdit = async (req, res) => {
     hashtags: Video.formatHashtags(hashtags),
   });
   console.log("Update Video!");
+  req.flash("info", "비디오를 수정했습니다! 😎");
   return res.redirect(`/videos/${id}`);
 };
 const handleGetUpload = (req, res) => {
@@ -100,13 +101,14 @@ const handlePostUpload = async (req, res) => {
       user: { _id },
     },
     body: { title, description, hashtags, category },
-    file: { path },
+    files: { video, thumb },
   } = req;
 
   // Create New Video
   try {
     const newVideo = await Video.create({
-      path,
+      path: video[0].path,
+      thumbPath: thumb[0].path,
       title,
       description,
       category,
@@ -120,11 +122,18 @@ const handlePostUpload = async (req, res) => {
     return res.redirect("/");
   } catch (error) {
     console.log(error);
+    req.flash("error", "다시 시도해주세요! 😳");
     return res.status(400).render("videos/upload", {
       pageTitle: "Upload Video",
-      errorMsg: true,
     });
   }
+};
+const handleCreate = (req, res) => {
+  res.header("Cross-Origin-Embedder-Policy", "require-corp");
+  res.header("Cross-Origin-Opener-Policy", "same-origin");
+  return res.render("videos/create", {
+    pageTitle: "Video Create",
+  });
 };
 const handleDelVideo = async (req, res) => {
   const { id } = req.params;
@@ -168,4 +177,5 @@ export {
   handleGetUpload,
   handlePostUpload,
   handleCreateViews,
+  handleCreate,
 };

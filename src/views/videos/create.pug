@@ -1,0 +1,15 @@
+extends ../base
+block styles 
+    style(type="text/css").
+        .header__create  {
+            color: #0056b8;
+            font-weight: 800;
+        }
+block body 
+    div.create__div
+        h3 5초 동영상 및 썸네일 만들기
+        hr
+        video#previewVideo
+        button#recordBtn 녹화하기 📷
+block scripts 
+    script(src="/static/js/videoRecorder.js") 

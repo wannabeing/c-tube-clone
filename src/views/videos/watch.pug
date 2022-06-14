@@ -3,7 +3,8 @@ include ../mixins/video
 
 block body
     div#videoContainer(data-video_id=video._id)
-        video(src="/"+video.path) 
+        video(src="/"+video.path, poster="/"+video.thumbPath)
+            span 
         div#videoControllers.videoControllers
             div.videoControllers__play
                 span#play.videoControllers__playBtn

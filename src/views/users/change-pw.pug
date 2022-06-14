@@ -1,8 +1,6 @@
 extends ../base
 
 block body 
-    if errorMsg
-        span=errorMsg
     if user.socialLogin===false
         form(action="", method="POST").edit__form
             h3 비밀번호 변경

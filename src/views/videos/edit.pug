@@ -3,7 +3,7 @@ extends ../base
 block body 
     form(id="upload", method="post") 
         input(name="title" type="text", placeholder="비디오 제목", required, value=video.title)
-        select(name="category" id="category" class=video.category)
+        select(name="category" id="category" data-select=video.category)
             option(value="Sel1") Sel1 
             option(value="Sel2") Sel2
             option(value="Sel3") Sel3 
@@ -14,5 +14,7 @@ block body
     if errorMsg
         span(class="error_msg") 다시 입력해주세요.
     
-    script
-        include ../scripts/videoEdit.js
+block scripts
+    script(src="/static/js/selectEdit.js")
+    //- script
+    //-     include ../scripts/videoEdit.js

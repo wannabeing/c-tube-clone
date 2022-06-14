@@ -2,7 +2,6 @@ import express from "express";
 import {
   handleUserProfile,
   handleLogout,
-  handleDel,
   handleGetEdit,
   handlePostEdit,
   handleGithubLogin,
@@ -30,8 +29,7 @@ userRouter
   .all(redirectLogin)
   .get(handleGetChangePw)
   .post(handlePostChangePw);
-userRouter.get("/del", handleDel);
-userRouter.get("/:id([0-9a-f]{24})", handleUserProfile);
+userRouter.get("/:id([0-9a-z]{24})", handleUserProfile);
 userRouter.get("/github/login", redirectHome, handleGithubLogin);
 userRouter.get("/github/callback", redirectHome, handleGithubCallback);
 userRouter.get("/kakao/login", redirectHome, handleKakaoLogin);

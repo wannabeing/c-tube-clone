@@ -11,12 +11,13 @@ block body
         else 
             i.xi-5x.xi-profile
         button(form="avatar_reset_form").reset_btn 기본 프로필로 변경
+        hr
         label(for="avatar") 프로필 변경 
         input(id="avatar", type="file" name="avatar", accept="image/*")
         hr
         input(name="email" type="email", disabled, value=user.email, required).edit__disabled
         input(name="name" type="text",value=user.name, minLength=2, maxLength=8, required) 
-        select(id=user.gender, name="gender", required)
+        select(id="category" data-gender=user.gender, name="gender", required)
             option(value=null) 성별 선택안함
             option(value="male") 남자 🙋🏻‍♂️ 
             option(value="female") 여자 🙋🏻‍♀️
@@ -25,6 +26,7 @@ block body
         if !user.socialLogin
             a(href="change-pw").a__btn 비밀번호 변경하기
 
-    script
-        //- include ../scripts/users/avatarSrcSetting.js
-        include ../scripts/users/genderEdit.js
+block scripts 
+    script(src="/static/js/selectEdit.js")
+    //- script
+    //-     include ../scripts/users/genderEdit.js

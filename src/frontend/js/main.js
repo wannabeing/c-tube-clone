@@ -1,2 +1,4 @@
+// SCSS
 import "../scss/styles.scss";
-console.log("main");
+// AsyncAwait 오류 해결
+import regeneratorRuntime from "regenerator-runtime";
