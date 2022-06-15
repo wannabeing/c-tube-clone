@@ -1,6 +1,7 @@
 import User from "../models/User";
 import bcrypt from "bcrypt";
 import fetch from "node-fetch";
+import "dotenv/config";
 
 // In Home Routers
 const handleGetJoin = (req, res) => {
@@ -37,6 +38,7 @@ const handlePostJoin = async (req, res) => {
       gender,
       birth,
       hobby,
+      avatarUrl: `${process.env.SERVER_PORT}/images/basic_profile.png`,
     });
   } catch (error) {
     console.log(error);
@@ -228,7 +230,7 @@ const handleGithubCallback = async (req, res) => {
 // In User Routers
 const handleLogout = (req, res) => {
   req.session.destroy();
-  return res.redirect("/login");
+  return res.redirect("/");
 };
 const handleGetEdit = (req, res) => {
   res.render("users/edit", {
@@ -247,7 +249,7 @@ const handlePostEdit = async (req, res) => {
   const updateUser = await User.findByIdAndUpdate(
     _id,
     {
-      avatarUrl: file ? file.path : avatarUrl,
+      avatarUrl: file ? `/${file.path}` : avatarUrl,
       name,
       gender,
       birth,

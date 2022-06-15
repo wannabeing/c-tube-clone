@@ -96,8 +96,7 @@ const downloadVideo = async () => {
   URL.revokeObjectURL(thumbUrl);
   URL.revokeObjectURL(videoFile);
 
-  recordBtn.disabled = false;
-  recordBtn.innerText = "녹화하기 📷";
+  recordBtn.innerText = "새로고침 해주세요! 📷";
   recordBtn.addEventListener("click", startRecording);
 };
 const init = async () => {

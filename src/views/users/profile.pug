@@ -11,9 +11,9 @@ block body
         div.profile__info
             div.profile__info__details 
                 if profileUser.avatarUrl
-                    img(src="/"+profileUser.avatarUrl, alt="avatar", width="100", height="100").img__avatar
+                    img(src=profileUser.avatarUrl, alt="avatar", width="100", height="100").img__avatar
                 else 
-                    i.xi-5x.xi-profile
+                    img(src="/images/basic_profile.png",width="100", height="100")
                 span.info__name #{profileUser.name}
                     if profileUser.socialLogin 
                         img(src="../images/blue-badge.png", width="20", height="20" alt="")
@@ -28,5 +28,6 @@ block body
                 else
                     div.empty_msg
                         span 비디오가 존재하지 않습니다 😭
-block scripts 
+block scripts
+    script(src="/static/js/userProfile.js")
     

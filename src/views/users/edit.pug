@@ -7,9 +7,9 @@ block body
         if errorMsg 
             p=errorMsg
         if user.avatarUrl
-            img(src="/"+user.avatarUrl, alt="avatar", width="100", height="100").img__avatar
+            img(src=user.avatarUrl, alt="avatar", width="100", height="100").img__avatar#img
         else 
-            i.xi-5x.xi-profile
+            img(src="/images/basic_profile.png", width="100", height="100")#img
         button(form="avatar_reset_form").reset_btn 기본 프로필로 변경
         hr
         label(for="avatar") 프로필 변경 
@@ -28,5 +28,6 @@ block body
 
 block scripts 
     script(src="/static/js/selectEdit.js")
+    script(src="/static/js/userProfile.js") 
     //- script
     //-     include ../scripts/users/genderEdit.js

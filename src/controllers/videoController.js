@@ -1,5 +1,6 @@
 import Video from "../models/Video";
 import User from "../models/User";
+import Comment from "../models/Comment";
 
 // In Home Router
 const handleHome = async (req, res) => {
@@ -32,7 +33,15 @@ const handleSearch = async (req, res) => {
 // In Video Rotuer
 const handleWatch = async (req, res) => {
   const { id } = req.params;
-  const video = await Video.findById(id).populate("publisher");
+  const video = await Video.findById(id)
+    .populate("publisher")
+    .populate("comments");
+  // console.log(await Comment.findById(video.comments[0]._id).populate("writer"));
+  let arrs = [];
+  for (let i = 0; i < video.comments.length; i++) {
+    arrs.push(await Comment.findById(video.comments[i]._id).populate("writer"));
+  }
+  console.log(arrs);
   // NOT Found Video(Model)
   if (!video) {
     return res.status(404).render("404", {
@@ -42,6 +51,7 @@ const handleWatch = async (req, res) => {
   return res.render("videos/watch", {
     pageTitle: video.title,
     video,
+    arrs,
   });
 };
 const handleGetEdit = async (req, res) => {
@@ -128,7 +138,7 @@ const handlePostUpload = async (req, res) => {
     });
   }
 };
-const handleCreate = (req, res) => {
+const handleCreateVideo = (req, res) => {
   res.header("Cross-Origin-Embedder-Policy", "require-corp");
   res.header("Cross-Origin-Opener-Policy", "same-origin");
   return res.render("videos/create", {
@@ -166,7 +176,30 @@ const handleCreateViews = async (req, res) => {
   await video.save();
   return res.sendStatus(200);
 };
+const handleCreateComment = async (req, res) => {
+  const {
+    params: { id },
+    body: { comment },
+    session: { user },
+  } = req;
 
+  const video = await Video.findById(id);
+  const dbUser = await User.findById(user._id);
+  if (!video) {
+    return res.sendStatus(404);
+  }
+
+  const commentModel = await Comment.create({
+    text: comment,
+    writer: user._id,
+    video: id,
+  });
+  video.comments.push(commentModel._id);
+  dbUser.comments.push(commentModel._id);
+  dbUser.save();
+  video.save();
+  return res.sendStatus(201);
+};
 export {
   handleHome,
   handleSearch,
@@ -177,5 +210,6 @@ export {
   handleGetUpload,
   handlePostUpload,
   handleCreateViews,
-  handleCreate,
+  handleCreateVideo,
+  handleCreateComment,
 };

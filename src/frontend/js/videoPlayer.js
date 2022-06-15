@@ -93,22 +93,25 @@ const handleTimeLineMouseUp = () => {
 };
 // Keyboard Events
 const handleKeyDownEvent = (event) => {
-  switch (event.code) {
-    case "Space":
-      handlePlayBtn();
-      break;
-    case "ArrowLeft":
-      video.currentTime -= 1;
-      break;
-    case "ArrowRight":
-      video.currentTime += 1;
-      break;
-    case "KeyM":
-      handleMuteBtn();
-      break;
-    case "KeyF":
-      handleFullScreenBtn();
-      break;
+  const textarea = document.querySelector("textarea");
+  if (event.target !== textarea) {
+    switch (event.code) {
+      case "Space":
+        handlePlayBtn();
+        break;
+      case "ArrowLeft":
+        video.currentTime -= 1;
+        break;
+      case "ArrowRight":
+        video.currentTime += 1;
+        break;
+      case "KeyM":
+        handleMuteBtn();
+        break;
+      case "KeyF":
+        handleFullScreenBtn();
+        break;
+    }
   }
 };
 // FullScreen Btn Clicked

@@ -25,6 +25,7 @@ app.use(logger);
 
 // form Data 파싱 미들웨어
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Express-Session 미들웨어 (Connect Session & MongoDB)
 app.use(

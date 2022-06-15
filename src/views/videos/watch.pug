@@ -21,8 +21,64 @@ block body
             div 
                 span#fullscreen
                     i.fas.fa-expand
-
-        
+    div.description__Container
+        h3=video.title
+        div.description__info
+            p=`조회수 ${video.meta.views}회`
+            p=video.createdAt
+            p=`Category is ${video.category}`
+        div.hashtag
+            each hashtag in video.hashtags 
+                p.hashtag=hashtag
+        hr    
+    div.publisher__Container
+        div.publisher__info
+            img(src=video.publisher.avatarUrl, width="50", height="50")
+            a(href=`/users/${video.publisher._id}`)=video.publisher.name
+        h3 동영상 설명
+        p=video.description
+        div.publihser__edit
+            if String(user._id) === String(video.publisher._id)
+                a(href=`${video.id}/edit`) Edit &rarr;
+                br
+                a(href=`${video.id}/delete`) Delete &rarr;
+        hr
+    div.comment_Container
+        h3=`댓글 ${video.comments.length}개`
+        hr
+    if loggedIn
+        div.comment__form
+            form#commentForm
+                h3 댓글쓰기
+                div.form__textarea
+                    textarea(cols="30", rows="10", placeholder="댓글은 관심과 사랑입니다 🖤")
+                    button 작성
+    else
+        a(href="/login") 
+            div.comment__form
+                form#commentForm
+                    h3 로그인 하기
+                    textarea(cols="30", rows="10", placeholder="댓글을 작성하시려면 로그인이 필요합니다!")
+                    button 작성 
+    each arr in arrs.reverse() 
+        div.comment__shows
+            div.comment__info
+                img(src=arr.writer.avatarUrl, width="30", height="30")
+                if String(arr.writer._id) === String(video.publisher._id)
+                    a(href=`/users/${arr.writer._id}`, class="blues")=arr.writer.name
+                else
+                    a(href=`/users/${arr.writer._id}`)=arr.writer.name
+            div.comment__text
+                if String(arr.writer._id) === String(video.publisher._id)
+                    p.blues=arr.text
+                else
+                    p=arr.text
+                small=arr.createdAt
+            hr
+block scripts 
+    script(src="/static/js/videoPlayer.js")
+    if loggedIn
+        script(src="/static/js/comment.js")
     //- div
     //-     p=`설명: ${video.description}`
     //-     p= `category: ${video.category}`
@@ -37,6 +93,5 @@ block body
     //-     small="Created by "
     //-         a(href=`/users/${video.publisher._id}`)=video.publisher.name
     //-     hr
-block scripts 
-    script(src="/static/js/videoPlayer.js")
+
     

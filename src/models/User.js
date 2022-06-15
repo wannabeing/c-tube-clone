@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
   gender: { type: String, default: null },
   birth: { type: String, default: null, maxlength: 4, minlength: 4 },
   myVideos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
 });
 
 // Schema Middleware
@@ -20,8 +21,6 @@ userSchema.pre("save", async function () {
     this.password = await bcrypt.hash(this.password, 5);
   }
 });
-
-// Schema Statics
 
 const userModel = mongoose.model("User", userSchema);
 export default userModel;
