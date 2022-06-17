@@ -1,5 +1,9 @@
 const timeSpan = document.querySelector("#createdAt");
-const createdAt = new Date(timeSpan.dataset.createdat);
+if (timeSpan) {
+  const createdAt = new Date(timeSpan.dataset.createdat);
+  const newCreatedAt = displayedAt(createdAt);
+  timeSpan.innerText = newCreatedAt;
+}
 
 // 시간표시 계산 함수
 function displayedAt(createdAt) {
@@ -19,6 +23,3 @@ function displayedAt(createdAt) {
   const years = days / 365;
   return `${Math.floor(years)}년 전`;
 }
-
-const newCreatedAt = displayedAt(createdAt);
-timeSpan.innerText = newCreatedAt;

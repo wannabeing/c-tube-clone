@@ -38,7 +38,6 @@ block body
             div
                 i.fas.fa-thumbs-up=` ${video.meta.likes}`
 
-            
         hr    
     div.publisher__Container
         div.publisher__info
@@ -75,7 +74,11 @@ block body
     each arr in arrs.reverse() 
         div.comment__shows
             div.comment__info
-                img(src=arr.writer.avatarUrl, width="30", height="30")
+                if arr.writer.avatarUrl
+                    img(src=arr.writer.avatarUrl, width="30", height="30")
+                else
+                    img(src="/images/basic_profile.png", width="30", height="30")
+                
                 if String(arr.writer._id) === String(video.publisher._id)
                     a(href=`/users/${arr.writer._id}`, class="blues")=arr.writer.name
                 else

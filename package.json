@@ -7,7 +7,11 @@
   },
   "scripts": {
     "dev:server": "nodemon",
-    "dev:static": "webpack"
+    "dev:static": "webpack --mode=development --watch",
+    "build": "npm run build:server && npm run build:static",
+    "build:server": "babel src -d build --ignore src/frontend",
+    "build:static": "webpack --mode=production",
+    "start": "node build/init.js"
   },
   "author": "wannabeing",
   "license": "MIT",
@@ -33,6 +37,7 @@
     "sweetalert2": "^11.4.17"
   },
   "devDependencies": {
+    "@babel/cli": "^7.17.10",
     "@babel/core": "^7.18.0",
     "@babel/node": "^7.17.10",
     "@babel/preset-env": "^7.18.0",

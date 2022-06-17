@@ -19,8 +19,6 @@ module.exports = {
       filename: "css/styles.css",
     }),
   ],
-  watch: true,
-  mode: "development",
   output: {
     filename: "js/[name].js",
     path: path.resolve(__dirname, "static"),
