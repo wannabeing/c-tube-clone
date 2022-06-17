@@ -29,6 +29,8 @@ const handlePostJoin = async (req, res) => {
       pageTitle,
     });
   }
+  // heroku || 4000
+  const PORT = process.env.PORT || 4000;
   // create User
   try {
     await User.create({
@@ -38,7 +40,7 @@ const handlePostJoin = async (req, res) => {
       gender,
       birth,
       hobby,
-      avatarUrl: `${process.env.SERVER_PORT}/images/basic_profile.png`,
+      avatarUrl: `${process.env.SERVER}${PORT}/images/basic_profile.png`,
     });
   } catch (error) {
     console.log(error);
