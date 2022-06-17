@@ -16,7 +16,7 @@ block body
                     img(src="/images/basic_profile.png",width="100", height="100")
                 span.info__name #{profileUser.name}
                     if profileUser.socialLogin 
-                        img(src="../images/blue-badge.png", width="20", height="20" alt="")
+                        img(src="/images/blue-badge.png", width="20", height="20" alt="")
                 span.info__email #{profileUser.email}
                 if String(user._id) === String(profileUser._id)
                     a(href="/users/edit").info__edit 회원정보 수정
