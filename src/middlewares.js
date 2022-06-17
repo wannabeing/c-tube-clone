@@ -1,4 +1,6 @@
 import multer from "multer";
+import multerS3 from "multer-s3";
+import aws from "aws-sdk";
 
 const localsMiddleware = (req, res, next) => {
   // Session INFO -> locals INFO
@@ -26,12 +28,27 @@ const redirectHome = (req, res, next) => {
     return res.redirect("/");
   }
 };
+
+// Amazon S3 Settings
+const s3 = new aws.S3({
+  credentials: {
+    accessKeyId: process.env.AWS_ID,
+    secretAccessKey: process.env.AWS_SECRET,
+  },
+});
+const multerUploader = multerS3({
+  s3: s3,
+  bucket: "ctubee",
+  acl: "public-read",
+});
+
 // User Avatar Image Multer Middleware
 const multerAvatars = multer({
   dest: "uploads/avatars/",
   limits: {
     fileSize: 3000000,
   },
+  storage: multerUploader,
 });
 // Video File Multer Middleware
 const multerVideos = multer({
@@ -39,6 +56,7 @@ const multerVideos = multer({
   limits: {
     fileSize: 10000000,
   },
+  storage: multerUploader,
 });
 
 export {

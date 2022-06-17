@@ -116,8 +116,8 @@ const handlePostUpload = async (req, res) => {
   // Create New Video
   try {
     const newVideo = await Video.create({
-      path: video[0].path,
-      thumbPath: thumb[0].path,
+      path: video[0].location,
+      thumbPath: thumb[0].location,
       title,
       description,
       category,
