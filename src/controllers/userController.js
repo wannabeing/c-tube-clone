@@ -247,7 +247,6 @@ const handlePostEdit = async (req, res) => {
     body: { name, gender, birth },
     file,
   } = req;
-  console.log(file);
   const updateUser = await User.findByIdAndUpdate(
     _id,
     {
