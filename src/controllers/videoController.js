@@ -36,12 +36,11 @@ const handleWatch = async (req, res) => {
   const video = await Video.findById(id)
     .populate("publisher")
     .populate("comments");
-  // console.log(await Comment.findById(video.comments[0]._id).populate("writer"));
+  // 비디오의 댓글모음 변수 arrs 생성
   let arrs = [];
   for (let i = 0; i < video.comments.length; i++) {
     arrs.push(await Comment.findById(video.comments[i]._id).populate("writer"));
   }
-  console.log(arrs);
   // NOT Found Video(Model)
   if (!video) {
     return res.status(404).render("404", {
@@ -148,6 +147,7 @@ const handleCreateVideo = (req, res) => {
 const handleDelVideo = async (req, res) => {
   const { id } = req.params;
   const { _id } = req.session.user;
+
   const video = await Video.findById(id);
   const user = await User.findById(_id);
   // NOT Found Delete Video
@@ -198,7 +198,46 @@ const handleCreateComment = async (req, res) => {
   dbUser.comments.push(commentModel._id);
   dbUser.save();
   video.save();
+  req.flash("info", "댓글을 작성하였습니다! 😎");
   return res.sendStatus(201);
+};
+const handleDelComment = async (req, res) => {
+  const { id } = req.params;
+  const { _id } = req.session.user;
+
+  const comment = await Comment.findById(id);
+  const user = await User.findById(_id);
+  const video = await Video.findById(comment.video);
+
+  // NOT Found Delete Comment
+  if (!comment) {
+    return res.status(404).render("404", {
+      pageTitle: "Comment is Not Found",
+    });
+  }
+  // Delete Comment Writer ID !== Login User ID
+  if (String(comment.writer) !== String(_id)) {
+    return res.status(403).redirect("/");
+  }
+  // Delete Video & Delete User's myVideos Array
+  await Comment.findByIdAndDelete(id);
+  user.comments.splice(user.comments.indexOf(id), 1);
+  video.comments.splice(video.comments.indexOf(id), 1);
+  user.save();
+  video.save();
+  req.flash("info", "댓글을 삭제하였습니다! 😎");
+  return res.redirect(`/videos/${video._id}`);
+};
+const handleVideoLikes = async (req, res) => {
+  const { id } = req.params;
+  const video = await Video.findById(id);
+
+  if (!video) {
+    return res.sendStatus(404);
+  }
+  video.meta.likes += 1;
+  await video.save();
+  return res.sendStatus(200);
 };
 export {
   handleHome,
@@ -212,4 +251,6 @@ export {
   handleCreateViews,
   handleCreateVideo,
   handleCreateComment,
+  handleDelComment,
+  handleVideoLikes,
 };

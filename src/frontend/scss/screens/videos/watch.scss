@@ -152,16 +152,27 @@
   }
   .comment__text {
     display: flex;
-    justify-content: space-between;
     small {
       color: grey;
       font-size: 12px;
+      margin-right: 10px;
     }
   }
   hr {
     margin: 0;
     margin-top: 10px;
     margin-bottom: 5px;
+  }
+  .comment__del {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    text-align: center;
+    a {
+      color: grey;
+      font-size: 12px;
+      margin-right: 10px;
+    }
   }
 }
 .blues {

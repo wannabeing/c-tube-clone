@@ -24,12 +24,21 @@ block body
     div.description__Container
         h3=video.title
         div.description__info
-            p=`조회수 ${video.meta.views}회`
-            p=video.createdAt
-            p=`Category is ${video.category}`
+            span=`조회수 ${video.meta.views}회`
+            span#createdAt(data-createdAt=video.createdAt)=video.createdAt
+            span=`Category is ${video.category}`
         div.hashtag
             each hashtag in video.hashtags 
                 p.hashtag=hashtag
+        if loggedIn && String(user._id) !== String(video.publisher._id)
+            div
+                a(href=``)#likesBtn
+                    i.fas.fa-thumbs-up=` ${video.meta.likes}`
+        else
+            div
+                i.fas.fa-thumbs-up=` ${video.meta.likes}`
+
+            
         hr    
     div.publisher__Container
         div.publisher__info
@@ -39,9 +48,11 @@ block body
         p=video.description
         div.publihser__edit
             if String(user._id) === String(video.publisher._id)
-                a(href=`${video.id}/edit`) Edit &rarr;
+                div
+                    a(href=`${video.id}/edit`) Edit &rarr;
                 br
-                a(href=`${video.id}/delete`) Delete &rarr;
+                div
+                    a(href=`${video.id}/delete`) Delete &rarr;
         hr
     div.comment_Container
         h3=`댓글 ${video.comments.length}개`
@@ -58,8 +69,9 @@ block body
             div.comment__form
                 form#commentForm
                     h3 로그인 하기
-                    textarea(cols="30", rows="10", placeholder="댓글을 작성하시려면 로그인이 필요합니다!")
-                    button 작성 
+                    div.form__textarea
+                        textarea(cols="30", rows="10", placeholder="댓글을 작성하시려면 로그인이 필요합니다!")
+                        button 작성 
     each arr in arrs.reverse() 
         div.comment__shows
             div.comment__info
@@ -73,25 +85,15 @@ block body
                     p.blues=arr.text
                 else
                     p=arr.text
-                small=arr.createdAt
+            div.comment__text.comment__del
+                small.commentCreated(data-comment_created=arr.createdAt)=arr.createdAt
+                if String(arr.writer._id) === String(user._id)
+                    a#commentDel(href=`/videos/${arr._id}/comment/del`, data-comment_id=arr._id) 삭제
             hr
 block scripts 
     script(src="/static/js/videoPlayer.js")
+    script(src="/static/js/videoCreatedAt.js")
+    script(src="/static/js/commentCreatedAt.js")
     if loggedIn
+        script(src="/static/js/videoLikes.js")
         script(src="/static/js/comment.js")
-    //- div
-    //-     p=`설명: ${video.description}`
-    //-     p= `category: ${video.category}`
-    //-     each hashtag in video.hashtags 
-    //-         span=hashtag
-    //- if String(user._id) === String(video.publisher._id)
-    //-     a(href=`${video.id}/edit`) Edit &rarr;
-    //-     br
-    //-     a(href=`${video.id}/delete`) Delete &rarr;
-    //-     hr
-    //- div 
-    //-     small="Created by "
-    //-         a(href=`/users/${video.publisher._id}`)=video.publisher.name
-    //-     hr
-
-    

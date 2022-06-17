@@ -9,8 +9,10 @@ module.exports = {
     videoPlayer: BASE_PATH + "videoPlayer.js",
     selectEdit: BASE_PATH + "selectEdit.js",
     videoRecorder: BASE_PATH + "videoRecorder.js",
-    userProfile: BASE_PATH + "userProfile.js",
+    videoCreatedAt: BASE_PATH + "videoCreatedAt.js",
+    videoLikes: BASE_PATH + "videoLikes.js",
     comment: BASE_PATH + "comment.js",
+    commentCreatedAt: BASE_PATH + "commentCreatedAt.js",
   },
   plugins: [
     new MiniCssExtractPlugin({

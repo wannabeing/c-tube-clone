@@ -1,6 +1,7 @@
 // mixins/video
 .mixins-video {
   box-shadow: 0 0 16px #00000014;
+  padding: 5px;
   &:hover {
     opacity: 0.9;
   }

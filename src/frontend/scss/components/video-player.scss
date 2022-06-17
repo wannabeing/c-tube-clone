@@ -11,6 +11,7 @@
   border-radius: 12px;
   box-shadow: 0 0 16px #00000014;
   padding: 20px;
+  background-color: #0f1117;
   video {
     align-items: center;
     position: relative;
@@ -50,7 +51,7 @@
     grid-template-columns: 1fr 4fr 1fr auto;
     gap: 10px;
     justify-content: space-between;
-    background-color: #0f1117;
+    background-color: $color;
     padding: 10px;
     box-sizing: border-box;
     .videoControllers__play {

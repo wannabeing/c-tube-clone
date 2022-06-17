@@ -1,10 +1,6 @@
-const { async } = require("regenerator-runtime");
-
 const videoContainer = document.querySelector("#videoContainer");
 const form = document.querySelector("#commentForm");
 const textarea = form.querySelector("textarea");
-
-const addComment = () => {};
 
 const handleComment = async (event) => {
   event.preventDefault();
@@ -29,11 +25,11 @@ const handleComment = async (event) => {
       comment,
     }),
   });
-  textarea.value = "";
-  textarea.focus();
   // 성공적으로 댓글을 DB에 생성
-  if (response === 201) {
-    addComment(comment);
+  if (response.status === 201) {
+    textarea.value = "";
+    textarea.focus();
+    window.location.reload();
   }
 };
 
