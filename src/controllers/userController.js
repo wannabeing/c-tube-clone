@@ -316,6 +316,9 @@ const handlePostChangePw = async (req, res) => {
 };
 
 const handleUserProfile = async (req, res) => {
+  res.header("Cross-Origin-Embedder-Policy", "require-corp");
+  res.header("Cross-Origin-Opener-Policy", "same-origin");
+
   const { id } = req.params;
   const user = await User.findById(id).populate({
     path: "myVideos",
