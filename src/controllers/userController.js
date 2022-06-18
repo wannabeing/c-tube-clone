@@ -104,7 +104,7 @@ const handleKakaoCallback = async (req, res) => {
   const config = {
     client_id: process.env.KK_CLIENT,
     grant_type: "authorization_code",
-    redirect_uri: "http://localhost:4000/users/kakao/callback",
+    redirect_uri: `http://localhost:${process.env.PORT}/users/kakao/callback`,
     code: req.query.code,
   };
   const params = new URLSearchParams(config).toString();
