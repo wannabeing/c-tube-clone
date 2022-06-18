@@ -2,11 +2,14 @@ import multer from "multer";
 import multerS3 from "multer-s3";
 import aws from "aws-sdk";
 
+// 서버가 heroku인지, 로컬호스트인지
+const heroku = process.env.NODE_ENV === "production";
+
 const localsMiddleware = (req, res, next) => {
   // Session INFO -> locals INFO
   res.locals.loggedIn = Boolean(req.session.loggedIn);
   res.locals.user = req.session.user || {};
-
+  res.locals.heroku = heroku;
   res.locals.siteName = "C-Tube";
   next();
 };
@@ -29,16 +32,22 @@ const redirectHome = (req, res, next) => {
   }
 };
 
-// Amazon S3 Settings
+// Amazon S3 Uploader Settings
 const s3 = new aws.S3({
   credentials: {
     accessKeyId: process.env.AWS_ID,
     secretAccessKey: process.env.AWS_SECRET,
   },
 });
-const multerUploader = multerS3({
+const s3ImgUploader = multerS3({
   s3: s3,
-  bucket: "ctubee",
+  bucket: "ctubee/profileImgs",
+  acl: "public-read",
+  contentType: multerS3.AUTO_CONTENT_TYPE,
+});
+const s3VideoUploader = multerS3({
+  s3: s3,
+  bucket: "ctubee/videos",
   acl: "public-read",
   contentType: multerS3.AUTO_CONTENT_TYPE,
 });
@@ -49,7 +58,7 @@ const multerAvatars = multer({
   limits: {
     fileSize: 3000000,
   },
-  storage: multerUploader,
+  storage: heroku ? s3ImgUploader : undefined,
 });
 // Video File Multer Middleware
 const multerVideos = multer({
@@ -57,7 +66,7 @@ const multerVideos = multer({
   limits: {
     fileSize: 10000000,
   },
-  storage: multerUploader,
+  storage: heroku ? s3VideoUploader : undefined,
 });
 
 export {

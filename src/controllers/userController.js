@@ -247,10 +247,13 @@ const handlePostEdit = async (req, res) => {
     body: { name, gender, birth },
     file,
   } = req;
+  // 서버가 heroku인지, 로컬호스트인지
+  const heroku = process.env.NODE_ENV === "production";
+
   const updateUser = await User.findByIdAndUpdate(
     _id,
     {
-      avatarUrl: file ? file.location : avatarUrl,
+      avatarUrl: file ? (heroku ? file.location : file.path) : avatarUrl,
       name,
       gender,
       birth,
@@ -324,7 +327,6 @@ const handleUserProfile = async (req, res) => {
   });
   // NOT Found User
   if (!user) {
-    console.log("여기");
     return res.status(404).render("404", {
       pageTitle: "User Not Found",
     });

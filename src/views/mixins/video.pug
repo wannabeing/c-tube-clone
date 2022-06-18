@@ -1,6 +1,6 @@
 mixin video(item)
     a(href=`/videos/${item.id}`).mixins-video
-        div.mixins-video__thumb(style=`background-image:url(${item.thumbPath}); background-size:cover; background-position:center`)
+        div.mixins-video__thumb(style=`background-image:url(${heroku ? item.thumbPath : "/"+item.thumbPath}); background-size:cover; background-position:center`)
         div.mixins-video__data
             span.mixins-video__title=item.title
             div.mixins-video__meta

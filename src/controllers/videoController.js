@@ -112,12 +112,13 @@ const handlePostUpload = async (req, res) => {
     body: { title, description, hashtags, category },
     files: { video, thumb },
   } = req;
-
+  // 서버가 heroku인지, 로컬호스트인지
+  const heroku = process.env.NODE_ENV === "production";
   // Create New Video
   try {
     const newVideo = await Video.create({
-      path: video[0].location,
-      thumbPath: thumb[0].location,
+      path: heroku ? video[0].location : video[0].path,
+      thumbPath: heroku ? thumb[0].location : thumb[0].path,
       title,
       description,
       category,

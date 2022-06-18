@@ -3,8 +3,7 @@ include ../mixins/video
 
 block body
     div#videoContainer(data-video_id=video._id)
-        video(src=video.path, poster=video.thumbPath)
-            span 
+        video(src=heroku ? video.path : "/"+video.path, poster=heroku ? video.thumbPath : "/"+video.thumbPath)
         div#videoControllers.videoControllers
             div.videoControllers__play
                 span#play.videoControllers__playBtn
@@ -37,11 +36,13 @@ block body
         else
             div
                 i.fas.fa-thumbs-up=` ${video.meta.likes}`
-
         hr    
     div.publisher__Container
         div.publisher__info
-            img(src=video.publisher.avatarUrl, width="50", height="50")
+            if video.publisher.avatarUrl
+                img(src=heroku ? video.publisher.avatarUrl : "/"+video.publisher.avatarUrl, width="50", height="50")    
+            else
+                img(src="/images/basic_profile.png",width="50", height="50")
             a(href=`/users/${video.publisher._id}`)=video.publisher.name
         h3 동영상 설명
         p=video.description
@@ -75,7 +76,7 @@ block body
         div.comment__shows
             div.comment__info
                 if arr.writer.avatarUrl
-                    img(src=arr.writer.avatarUrl, width="30", height="30")
+                    img(src=heroku ? arr.writer.avatarUrl : "/"+arr.writer.avatarUrl, width="30", height="30")
                 else
                     img(src="/images/basic_profile.png", width="30", height="30")
                 
