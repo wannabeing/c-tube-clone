@@ -21,6 +21,7 @@ app.set("views", process.cwd() + "/src/views");
 app.use(
   cors({
     origin: "*",
+    credentials: true,
   })
 );
 app.use((req, res, next) => {
