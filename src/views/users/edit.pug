@@ -9,7 +9,7 @@ block body
         if user.avatarUrl
                 img(src=heroku ? user.avatarUrl : "/"+user.avatarUrl, alt="avatar", width="100", height="100").img__avatar#img
         else 
-            img(src="/images/basic_profile.png", width="100", height="100")#img
+            img(src=basicProfile, width="100", height="100")#img
         button(form="avatar_reset_form").reset_btn 기본 프로필로 변경
         hr
         label(for="avatar") 프로필 변경 

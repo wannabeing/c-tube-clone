@@ -11,6 +11,12 @@ const localsMiddleware = (req, res, next) => {
   res.locals.user = req.session.user || {};
   res.locals.heroku = heroku;
   res.locals.siteName = "C-Tube";
+  res.locals.basicProfile =
+    "https://ctubee.s3.ap-northeast-2.amazonaws.com/images/basic_profile.png";
+  res.locals.blueBadge =
+    "https://ctubee.s3.ap-northeast-2.amazonaws.com/images/blue_badge.png";
+  res.locals.kakaoLogo =
+    "https://ctubee.s3.ap-northeast-2.amazonaws.com/images/kakao_logo.png";
   next();
 };
 // Need Session INFO

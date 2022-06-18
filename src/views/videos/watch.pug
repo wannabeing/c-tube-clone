@@ -42,7 +42,7 @@ block body
             if video.publisher.avatarUrl
                 img(src=heroku ? video.publisher.avatarUrl : "/"+video.publisher.avatarUrl, width="50", height="50")    
             else
-                img(src="/images/basic_profile.png",width="50", height="50")
+                img(src=basicProfile,width="50", height="50")
             a(href=`/users/${video.publisher._id}`)=video.publisher.name
         h3 동영상 설명
         p=video.description
@@ -78,7 +78,7 @@ block body
                 if arr.writer.avatarUrl
                     img(src=heroku ? arr.writer.avatarUrl : "/"+arr.writer.avatarUrl, width="30", height="30")
                 else
-                    img(src="/images/basic_profile.png", width="30", height="30")
+                    img(src=basicProfile, width="30", height="30")
                 
                 if String(arr.writer._id) === String(video.publisher._id)
                     a(href=`/users/${arr.writer._id}`, class="blues")=arr.writer.name
