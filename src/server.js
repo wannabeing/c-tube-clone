@@ -4,6 +4,7 @@ import session from "express-session";
 import { localsMiddleware } from "./middlewares";
 import MongoStore from "connect-mongo";
 import flash from "express-flash";
+import cors from "cors";
 
 import homeRouter from "./routers/homeRouter";
 import userRouter from "./routers/userRouter";
@@ -15,6 +16,21 @@ const app = express();
 // Pug (Template Engine) View Engine Setting
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
+
+// CORS MiddleWare & CORS setting
+app.use(
+  cors({
+    origin: "*",
+  })
+);
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 // X-Powered-by Setting (Header)
 app.disable("x-powered-by");
