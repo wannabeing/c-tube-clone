@@ -40,6 +40,7 @@ const multerUploader = multerS3({
   s3: s3,
   bucket: "ctubee",
   acl: "public-read",
+  contentType: multerS3.AUTO_CONTENT_TYPE,
 });
 
 // User Avatar Image Multer Middleware
