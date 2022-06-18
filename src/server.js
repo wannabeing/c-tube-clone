@@ -23,15 +23,6 @@ app.disable("x-powered-by");
 const logger = morgan("dev");
 app.use(logger);
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
-
 // form Data 파싱 미들웨어
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
