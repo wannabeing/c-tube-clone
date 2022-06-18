@@ -92,7 +92,7 @@ const handleKakaoLogin = (req, res) => {
   const baseUrl = "https://kauth.kakao.com/oauth/authorize";
   const config = {
     client_id: process.env.KK_CLIENT,
-    redirect_uri: `${process.env.HEROKU_SERVER}users/kakao/callback`,
+    redirect_uri: `http://localhost:${process.env.PORT}/users/kakao/callback`,
     response_type: "code",
   };
   const params = new URLSearchParams(config).toString();
@@ -104,7 +104,7 @@ const handleKakaoCallback = async (req, res) => {
   const config = {
     client_id: process.env.KK_CLIENT,
     grant_type: "authorization_code",
-    redirect_uri: `${process.env.HEROKU_SERVER}/users/kakao/callback`,
+    redirect_uri: `http://localhost:${process.env.PORT}/users/kakao/callback`,
     code: req.query.code,
   };
   const params = new URLSearchParams(config).toString();
@@ -140,7 +140,6 @@ const handleKakaoCallback = async (req, res) => {
           : null,
         socialLogin: true,
       });
-      console.log(user);
     }
     req.session.loggedIn = true;
     req.session.user = user;
