@@ -2,13 +2,14 @@ extends ../base
 include ../mixins/video
 
 block body
-    each item in videos
+    div.profile__videos
         div.home__grid
-            +video(item)
-    else
-        div.empty_msg
-            span 비디오가 존재하지 않습니다 😭
-            a(href="/videos/upload")
-                p 비디오 업로드하기 &rarr;
+            each item in videos
+                +video(item)
+            else
+                div.empty_msg
+                    span 비디오가 존재하지 않습니다 😭
+                        a(href="/videos/upload")
+                            p 비디오 업로드하기 &rarr;
         
     
