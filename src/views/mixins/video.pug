@@ -6,6 +6,6 @@ mixin video(item)
             div.mixins-video__meta
                 p #{item.publisher.name}
                 span 조회수 #{item.meta.views}회 • 
-                span(data-createdAt=item.createdAt)#createdAt #{item.createdAt}
+                span(data-createdAt=item.createdAt).createdAt #{item.createdAt}
 block scripts
     script(src="/static/js/videoCreatedAt.js")  

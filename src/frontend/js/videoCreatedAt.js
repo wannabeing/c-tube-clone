@@ -1,10 +1,3 @@
-const timeSpan = document.querySelector("#createdAt");
-if (timeSpan) {
-  const createdAt = new Date(timeSpan.dataset.createdat);
-  const newCreatedAt = displayedAt(createdAt);
-  timeSpan.innerText = newCreatedAt;
-}
-
 // 시간표시 계산 함수
 function displayedAt(createdAt) {
   const milliSeconds = new Date() - createdAt;
@@ -22,4 +15,13 @@ function displayedAt(createdAt) {
   if (months < 12) return `${Math.floor(months)}개월 전`;
   const years = days / 365;
   return `${Math.floor(years)}년 전`;
+}
+// 모든 timeSpan 태그
+const timeSpan = document.getElementsByClassName("createdAt");
+if (timeSpan) {
+  for (let i = 0; i < timeSpan.length; i++) {
+    const createdAt = new Date(timeSpan[i].dataset.createdat);
+    const newCreatedAt = displayedAt(createdAt);
+    timeSpan[i].innerText = newCreatedAt;
+  }
 }
