@@ -20,8 +20,7 @@ app.set("views", process.cwd() + "/src/views");
 app.disable("x-powered-by");
 
 // Morgan 로그 미들웨어
-const logger = morgan("dev");
-app.use(logger);
+app.use(morgan("dev"));
 
 // form Data 파싱 미들웨어
 app.use(express.urlencoded({ extended: true }));

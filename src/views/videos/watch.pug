@@ -24,7 +24,7 @@ block body
         h3=video.title
         div.description__info
             span=`조회수 ${video.meta.views}회`
-            span#createdAt(data-createdAt=video.createdAt)=video.createdAt
+            span#createdAt(data-createdAt=video.createdAt).createdAt=video.createdAt
             span=`Category is ${video.category}`
         div.hashtag
             each hashtag in video.hashtags 
@@ -94,10 +94,12 @@ block body
                 if String(arr.writer._id) === String(user._id)
                     a#commentDel(href=`/videos/${arr._id}/comment/del`, data-comment_id=arr._id) 삭제
             hr
+        
 block scripts 
     script(src="/static/js/videoPlayer.js")
     script(src="/static/js/videoCreatedAt.js")
     script(src="/static/js/commentCreatedAt.js")
+    
     if loggedIn
         script(src="/static/js/videoLikes.js")
         script(src="/static/js/comment.js")

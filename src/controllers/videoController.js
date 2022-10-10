@@ -2,16 +2,17 @@ import Video from "../models/Video";
 import User from "../models/User";
 import Comment from "../models/Comment";
 
-// In Home Router
+// In Home Router ("/")
 const handleHome = async (req, res) => {
   const videos = await Video.find({})
     .sort({ createdAt: "desc" })
     .populate("publisher");
   return res.render("videos/home", {
-    pageTitle: "C-Tube",
+    pageTitle: "Home",
     videos,
   });
 };
+// In Home Router ("/search/*")
 const handleSearch = async (req, res) => {
   const { search } = req.query;
   if (search) {
@@ -30,7 +31,7 @@ const handleSearch = async (req, res) => {
   return redirect("/");
 };
 
-// In Video Rotuer
+// In Video Rotuer ("/videos/:id")
 const handleWatch = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id)
@@ -94,7 +95,6 @@ const handlePostEdit = async (req, res) => {
     category,
     hashtags: Video.formatHashtags(hashtags),
   });
-  console.log("Update Video!");
   req.flash("info", "비디오를 수정했습니다! 😎");
   return res.redirect(`/videos/${id}`);
 };
