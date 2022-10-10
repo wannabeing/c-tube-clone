@@ -44,6 +44,7 @@ const handleWatch = async (req, res) => {
   }
   // NOT Found Video(Model)
   if (!video) {
+    console.log("test");
     return res.status(404).render("404", {
       pageTitle: "Video not Found.",
     });
@@ -240,6 +241,9 @@ const handleVideoLikes = async (req, res) => {
   await video.save();
   return res.sendStatus(200);
 };
+const handleNotFound = (req, res) => {
+  return res.status(404).render("404", { pageTitle: "Not Found 🥲" });
+};
 export {
   handleHome,
   handleSearch,
@@ -254,4 +258,5 @@ export {
   handleCreateComment,
   handleDelComment,
   handleVideoLikes,
+  handleNotFound,
 };

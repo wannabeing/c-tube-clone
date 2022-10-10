@@ -5,7 +5,11 @@ import {
   handleGetLogin,
   handlePostLogin,
 } from "../controllers/userController";
-import { handleHome, handleSearch } from "../controllers/videoController";
+import {
+  handleHome,
+  handleNotFound,
+  handleSearch,
+} from "../controllers/videoController";
 import { redirectHome } from "../middlewares";
 
 // Home Router
@@ -24,5 +28,5 @@ homeRouter
   .all(redirectHome)
   .get(handleGetLogin)
   .post(handlePostLogin);
-
+homeRouter.get("/[^0-9a-f]+", handleNotFound);
 export default homeRouter;

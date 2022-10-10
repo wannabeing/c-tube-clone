@@ -8,6 +8,7 @@ import {
   handleDelVideo,
   handleCreateVideo,
   handleDelComment,
+  handleNotFound,
 } from "../controllers/videoController";
 import { redirectLogin, multerVideos } from "../middlewares";
 
@@ -15,7 +16,8 @@ import { redirectLogin, multerVideos } from "../middlewares";
 const videoRouter = express.Router();
 
 // Call Controllers
-videoRouter.get("/:id([0-9a-f]{24})", handleWatch);
+videoRouter.route("/:id([0-9a-f]{24})").get(handleWatch);
+videoRouter.get("/:id([0-9a-f]{25,300})", handleNotFound);
 videoRouter
   .route("/upload")
   .all(redirectLogin)
