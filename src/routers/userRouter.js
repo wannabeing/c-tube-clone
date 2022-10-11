@@ -11,6 +11,8 @@ import {
   handleGetChangePw,
   handlePostChangePw,
   handleResetAvatar,
+  handleNaverCallback,
+  handleNaverLogin,
 } from "../controllers/userController";
 import { redirectLogin, redirectHome, multerAvatars } from "../middlewares";
 
@@ -34,6 +36,8 @@ userRouter.get("/github/login", redirectHome, handleGithubLogin);
 userRouter.get("/github/callback", redirectHome, handleGithubCallback);
 userRouter.get("/kakao/login", redirectHome, handleKakaoLogin);
 userRouter.get("/kakao/callback", redirectHome, handleKakaoCallback);
+userRouter.get("/naver/login", redirectHome, handleNaverLogin);
+userRouter.get("/naver/callback", redirectHome, handleNaverCallback);
 userRouter.post("/avatar_reset", redirectLogin, handleResetAvatar);
 
 export default userRouter;

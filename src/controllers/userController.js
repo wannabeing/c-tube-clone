@@ -204,7 +204,8 @@ const handleGithubCallback = async (req, res) => {
     );
     // Email Not Found
     if (!emailObj) {
-      res.redirect("/login");
+      req.flash("error", "유효한 깃허브 이메일이 존재하지 않습니다!");
+      return res.status(400).redirect("/login");
     }
     // DB User Email === Github User Email
     let user = await User.findOne({ email: emailObj.email });
@@ -224,7 +225,84 @@ const handleGithubCallback = async (req, res) => {
   }
   // Access Token Not Found
   else {
-    res.redirect("/login");
+    req.flash("error", "액세스토큰이 존재하지 않습니다!");
+    return res.status(400).redirect("/login");
+  }
+};
+// In Naver Routers
+const handleNaverLogin = (req, res) => {
+  const baseUrl = "https://nid.naver.com/oauth2.0/authorize";
+  const config = {
+    response_type: "code",
+    client_id: process.env.NAV_CLIENT,
+    state: process.env.COOKIE_SECRET,
+    redirect_uri: "http://localhost:4000/users/naver/callback",
+  };
+  const params = new URLSearchParams(config).toString();
+  return res.redirect(`${baseUrl}?${params}`);
+};
+const handleNaverCallback = async (req, res) => {
+  const { code, state } = req.query;
+  const baseUrl = "https://nid.naver.com/oauth2.0/token";
+  const config = {
+    grant_type: "authorization_code",
+    client_id: process.env.NAV_CLIENT,
+    client_secret: process.env.NAV_SECRET,
+    code: code,
+    state: process.env.COOKIE_SECRET,
+  };
+  const params = new URLSearchParams(config).toString();
+  const redirectUrl = `${baseUrl}?${params}`;
+
+  const tokenRequest = await (
+    await fetch(redirectUrl, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+      },
+    })
+  ).json();
+  if ("access_token" in tokenRequest) {
+    const { access_token } = tokenRequest;
+    const apiUrl = "https://openapi.naver.com/v1/nid/me	";
+    // Find User data
+    const userData = await (
+      await fetch(`${apiUrl}`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+    ).json();
+    // Find Info
+    const { email, profile_image, gender, name, birthyear, nickname } =
+      userData.response;
+    // Email Not Found
+    if (!email) {
+      req.flash("error", "유효한 이메일이 존재하지 않습니다!");
+      return res.status(400).redirect("/login");
+    }
+    // DB User Email === Naver User Email
+    let user = await User.findOne({ email });
+    // Create New User
+    if (!user) {
+      user = await User.create({
+        avatarUrl: profile_image,
+        password: "",
+        email,
+        name: name ? name : nickname,
+        birthday: birthyear,
+        gender: gender ? "M" : "male" ? "W" : "women",
+        socialLogin: true,
+      });
+    }
+    req.session.loggedIn = true;
+    req.session.user = user;
+    req.flash("info", `${name}님 환영합니다! 🤩`);
+    return res.redirect("/");
+  } else {
+    // Access Token Not Found
+    req.flash("error", "액세스토큰이 존재하지 않습니다!");
+    return res.status(400).redirect("/login");
   }
 };
 
@@ -375,4 +453,6 @@ export {
   handleKakaoLogin,
   handleKakaoCallback,
   handleResetAvatar,
+  handleNaverLogin,
+  handleNaverCallback,
 };

@@ -16,6 +16,7 @@ import { redirectHome } from "../middlewares";
 const homeRouter = express.Router();
 
 // Call Controllers
+
 homeRouter.get("/", handleHome);
 homeRouter.get("/search", handleSearch);
 homeRouter
