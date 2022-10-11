@@ -236,19 +236,18 @@ const handleNaverLogin = (req, res) => {
     response_type: "code",
     client_id: process.env.NAV_CLIENT,
     state: process.env.COOKIE_SECRET,
-    redirect_uri: "http://localhost:4000/users/naver/callback",
+    redirect_uri: `${process.env.HEROKU_SERVER}/users/kakao/callback`,
   };
   const params = new URLSearchParams(config).toString();
   return res.redirect(`${baseUrl}?${params}`);
 };
 const handleNaverCallback = async (req, res) => {
-  const { code, state } = req.query;
   const baseUrl = "https://nid.naver.com/oauth2.0/token";
   const config = {
     grant_type: "authorization_code",
     client_id: process.env.NAV_CLIENT,
     client_secret: process.env.NAV_SECRET,
-    code: code,
+    code: req.query.code,
     state: process.env.COOKIE_SECRET,
   };
   const params = new URLSearchParams(config).toString();
@@ -262,6 +261,7 @@ const handleNaverCallback = async (req, res) => {
       },
     })
   ).json();
+
   if ("access_token" in tokenRequest) {
     const { access_token } = tokenRequest;
     const apiUrl = "https://openapi.naver.com/v1/nid/me	";
@@ -291,7 +291,7 @@ const handleNaverCallback = async (req, res) => {
         email,
         name: name ? name : nickname,
         birthday: birthyear,
-        gender: gender ? "M" : "male" ? "W" : "women",
+        gender: gender,
         socialLogin: true,
       });
     }

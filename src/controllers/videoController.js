@@ -168,6 +168,7 @@ const handleDelVideo = async (req, res) => {
   user.save();
   return res.redirect("/");
 };
+// Increased Video Views
 const handleCreateViews = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id);
