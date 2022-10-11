@@ -236,7 +236,7 @@ const handleNaverLogin = (req, res) => {
     response_type: "code",
     client_id: process.env.NAV_CLIENT,
     state: process.env.COOKIE_SECRET,
-    redirect_uri: `${process.env.HEROKU_SERVER}/users/kakao/callback`,
+    redirect_uri: `${process.env.HEROKU_SERVER}/users/naver/callback`,
   };
   const params = new URLSearchParams(config).toString();
   return res.redirect(`${baseUrl}?${params}`);
