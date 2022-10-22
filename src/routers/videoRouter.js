@@ -43,4 +43,8 @@ videoRouter
 videoRouter.route("/create").all(redirectLogin).get(handleCreateVideo);
 videoRouter.get("/:id([0-9a-f]{24})/delete", redirectLogin, handleDelVideo);
 videoRouter.get("/:id([0-9a-f]{24})/comment/del", handleDelComment);
+// 404 Controller
+videoRouter.use((req, res) => {
+  return res.status(404).render("404", { pageTitle: "Not Found 🥲" });
+});
 export default videoRouter;

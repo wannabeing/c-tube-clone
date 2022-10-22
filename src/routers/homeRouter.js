@@ -16,7 +16,6 @@ import { redirectHome } from "../middlewares";
 const homeRouter = express.Router();
 
 // Call Controllers
-
 homeRouter.get("/", handleHome);
 homeRouter.get("/search", handleSearch);
 homeRouter
@@ -29,5 +28,8 @@ homeRouter
   .all(redirectHome)
   .get(handleGetLogin)
   .post(handlePostLogin);
-homeRouter.get("/[^0-9a-f]+", handleNotFound);
+// 404 Controller
+homeRouter.use((req, res) => {
+  return res.status(404).render("404", { pageTitle: "Not Found 🥲" });
+});
 export default homeRouter;
