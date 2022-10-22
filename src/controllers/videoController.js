@@ -78,7 +78,6 @@ const handlePostEdit = async (req, res) => {
   const { id } = req.params;
   const { _id } = req.session.user;
   const { title, description, hashtags, category } = req.body; // form으로부터 받아온 값
-  // const video = await Video.exists({ _id: id });
   const video = await Video.findById(id);
   // NOT Found Edit Video
   if (!video) {
