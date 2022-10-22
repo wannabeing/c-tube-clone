@@ -37,18 +37,18 @@ const handleWatch = async (req, res) => {
   const video = await Video.findById(id)
     .populate("publisher")
     .populate("comments");
+  // NOT Found Video
+  if (!video) {
+    return res.status(404).render("404", {
+      pageTitle: "Video not Found.",
+    });
+  }
   // 비디오의 댓글모음 변수 arrs 생성
   let arrs = [];
   for (let i = 0; i < video.comments.length; i++) {
     arrs.push(await Comment.findById(video.comments[i]._id).populate("writer"));
   }
-  // NOT Found Video(Model)
-  if (!video) {
-    console.log("test");
-    return res.status(404).render("404", {
-      pageTitle: "Video not Found.",
-    });
-  }
+
   return res.render("videos/watch", {
     pageTitle: video.title,
     video,
@@ -242,9 +242,6 @@ const handleVideoLikes = async (req, res) => {
   await video.save();
   return res.sendStatus(200);
 };
-const handleNotFound = (req, res) => {
-  return res.status(404).render("404", { pageTitle: "Not Found 🥲" });
-};
 export {
   handleHome,
   handleSearch,
@@ -259,5 +256,4 @@ export {
   handleCreateComment,
   handleDelComment,
   handleVideoLikes,
-  handleNotFound,
 };

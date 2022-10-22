@@ -48,5 +48,9 @@ app.use("/", homeRouter);
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
 app.use("/api", apiRouter);
+// 404 Error handle
+app.use((req, res) => {
+  return res.status(404).render("404", { pageTitle: "Not Found 🥲" });
+});
 
 export default app;

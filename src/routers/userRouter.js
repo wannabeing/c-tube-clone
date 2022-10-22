@@ -39,8 +39,4 @@ userRouter.get("/kakao/callback", redirectHome, handleKakaoCallback);
 userRouter.get("/naver/login", redirectHome, handleNaverLogin);
 userRouter.get("/naver/callback", redirectHome, handleNaverCallback);
 userRouter.post("/avatar_reset", redirectLogin, handleResetAvatar);
-// 404 Controller
-userRouter.use((req, res) => {
-  return res.status(404).render("404", { pageTitle: "Not Found 🥲" });
-});
 export default userRouter;

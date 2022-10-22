@@ -28,8 +28,4 @@ homeRouter
   .all(redirectHome)
   .get(handleGetLogin)
   .post(handlePostLogin);
-// 404 Controller
-homeRouter.use((req, res) => {
-  return res.status(404).render("404", { pageTitle: "Not Found 🥲" });
-});
 export default homeRouter;
